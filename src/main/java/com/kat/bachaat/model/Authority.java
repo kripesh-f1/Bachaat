@@ -1,11 +1,9 @@
 package com.kat.bachaat.model;
 
-import java.util.List;
 
 public class Authority {
     private int authorityId;
     private String name;
-    private List<User> userList;
 
     public Authority() {
     }
@@ -26,20 +24,11 @@ public class Authority {
         this.name = name;
     }
 
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
-
     @Override
     public String toString() {
         return "Authority{" +
                 "authorityId=" + authorityId +
                 ", name='" + name + '\'' +
-                ", userList=" + userList +
                 '}';
     }
 }
