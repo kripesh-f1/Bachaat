@@ -1,8 +1,15 @@
 package com.kat.bachaat.model;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name="tbl_authority")
 public class Authority {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "authority_id", updatable = false, nullable = false)
     private int authorityId;
+    @Column(name="authority_name")
     private String name;
 
     public Authority() {
