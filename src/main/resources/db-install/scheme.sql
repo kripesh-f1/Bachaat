@@ -21,13 +21,13 @@ CREATE TABLE IF NOT EXISTS tbl_user (
 );
 
 /* TO CREATE TABLE TBL_AUTHORITY */
-CREATE TABLE tbl_authority (
+CREATE TABLE IF NOT EXISTS tbl_authority (
 		authority_id int PRIMARY KEY AUTO_INCREMENT,
 		authority_name varchar(50)
 );
 
 /* TO CREATE TABLE USER_AUTHORITY */
-CREATE TABLE user_authority (
+CREATE TABLE IF NOT EXISTS user_authority (
 		user_id int, FOREIGN KEY(user_id) REFERENCES tbl_user(user_id),
 		authority_id int, FOREIGN KEY(authority_id) REFERENCES tbl_authority(authority_id)
 );
