@@ -1,8 +1,11 @@
 /* TO CREATE DATABASE */
 CREATE DATABASE IF NOT EXISTS bachaat;
 
+/* TO USE DATABASE */
+USE bachaat;
+
 /* TO CREATE TABLE TBL_USER */
-CREATE TABLE tbl_user (
+CREATE TABLE IF NOT EXISTS tbl_user (
     user_id int PRIMARY KEY AUTO_INCREMENT,
     first_name varchar(50),
     middle_name varchar(50),
