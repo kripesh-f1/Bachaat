@@ -1,7 +1,7 @@
----TO CREATE DATABASE
+/* TO CREATE DATABASE */
 CREATE DATABASE bachaat;
 
----TO CREATE TABLE TBL_USER
+/* TO CREATE TABLE TBL_USER */
 CREATE TABLE tbl_user (
     user_id int PRIMARY KEY AUTO_INCREMENT,
     first_name varchar(50),
@@ -17,13 +17,13 @@ CREATE TABLE tbl_user (
     active boolean DEFAULT FALSE
 );
 
----TO CREATE TABLE TBL_AUTHORITY
+/* TO CREATE TABLE TBL_AUTHORITY */
 CREATE TABLE tbl_authority (
 		authority_id int PRIMARY KEY AUTO_INCREMENT,
 		authority_name varchar(50)
 );
 
----TO CREATE TABLE USER_AUTHORITY
+/* TO CREATE TABLE USER_AUTHORITY */
 CREATE TABLE user_authority (
 		user_id int, FOREIGN KEY(user_id) REFERENCES tbl_user(user_id),
 		authority_id int, FOREIGN KEY(authority_id) REFERENCES tbl_authority(authority_id)
