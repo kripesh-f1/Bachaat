@@ -6,28 +6,30 @@ USE bachaat;
 
 /* TO CREATE TABLE TBL_USER */
 CREATE TABLE IF NOT EXISTS tbl_user (
-    user_id int PRIMARY KEY AUTO_INCREMENT,
-    first_name varchar(50),
-    middle_name varchar(50),
-    password varchar(70),
-    last_name varchar(50),
-    mobile_number varchar(50),
-    email_address varchar(50),
-    address varchar(50),
-    activation_code int,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-    updated_date TIMESTAMP DEFAULT 0 ON UPDATE CURRENT_TIMESTAMP ,
-    active boolean DEFAULT FALSE
+  user_id         INT PRIMARY KEY AUTO_INCREMENT,
+  first_name      VARCHAR(50),
+  middle_name     VARCHAR(50),
+  password        VARCHAR(70),
+  last_name       VARCHAR(50),
+  mobile_number   VARCHAR(50),
+  email_address   VARCHAR(50),
+  address         VARCHAR(50),
+  activation_code INT,
+  created_date    TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+  updated_date    TIMESTAMP       DEFAULT 0 ON UPDATE CURRENT_TIMESTAMP,
+  active          BOOLEAN         DEFAULT FALSE
 );
 
-/* TO CREATE TABLE TBL_AUTHORITY */
-CREATE TABLE IF NOT EXISTS tbl_authority (
-		authority_id int PRIMARY KEY AUTO_INCREMENT,
-		authority_name varchar(50)
+/* TO CREATE TABLE TBL_ROLE */
+CREATE TABLE IF NOT EXISTS tbl_role (
+  role_id INT PRIMARY KEY AUTO_INCREMENT,
+  name    VARCHAR(50)
 );
 
-/* TO CREATE TABLE USER_AUTHORITY */
-CREATE TABLE IF NOT EXISTS user_authority (
-		user_id int, FOREIGN KEY(user_id) REFERENCES tbl_user(user_id),
-		authority_id int, FOREIGN KEY(authority_id) REFERENCES tbl_authority(authority_id)
+/* TO CREATE TABLE USER_ROLE */
+CREATE TABLE IF NOT EXISTS user_role (
+  user_id INT,
+  FOREIGN KEY (user_id) REFERENCES tbl_user (user_id),
+  role_id INT,
+  FOREIGN KEY (role_id) REFERENCES tbl_role (role_id)
 );
