@@ -39,7 +39,7 @@ public class User {
             name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
-    private List<Role> roleList;
+    private List<Role> roles;
 
     public User() {
     }
@@ -140,12 +140,12 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoleList() {
-        return roleList;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+    public void setRoles(List<Role> roles) {
+        this.roles= roles;
     }
 
     @Override
@@ -163,7 +163,7 @@ public class User {
                 ", activationCode=" + activationCode +
                 ", active=" + active +
                 ", password='" + password + '\'' +
-                ", roleList=" + roleList +
+                ", roles=" + roles +
                 '}';
     }
 }
