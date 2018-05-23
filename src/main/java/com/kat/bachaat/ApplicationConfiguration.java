@@ -21,13 +21,12 @@ public class ApplicationConfiguration implements WebApplicationInitializer {
         // Create the 'root' Spring application context
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(ApplicationConfiguration.class);
+        rootContext.setServletContext(container);
         // Manage the lifecycle of the root application context
         container.addListener(new ContextLoaderListener(rootContext));
-        // Create the dispatcher servlet's Spring application context
-        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
         // Register and map the dispatcher servlet
         ServletRegistration.Dynamic dispatcher = container
-                .addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
+                .addServlet("dispatcher", new DispatcherServlet(rootContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
     }
