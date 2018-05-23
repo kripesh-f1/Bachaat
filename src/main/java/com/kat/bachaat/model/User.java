@@ -36,10 +36,10 @@ public class User {
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "user_authority",
+            name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "authority_id")})
-    private List<Authority> authorityList;
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
+    private List<Role> roleList;
 
     public User() {
     }
@@ -140,12 +140,12 @@ public class User {
         this.password = password;
     }
 
-    public List<Authority> getAuthorityList() {
-        return authorityList;
+    public List<Role> getRoleList() {
+        return roleList;
     }
 
-    public void setAuthorityList(List<Authority> authorityList) {
-        this.authorityList = authorityList;
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     @Override
@@ -163,7 +163,7 @@ public class User {
                 ", activationCode=" + activationCode +
                 ", active=" + active +
                 ", password='" + password + '\'' +
-                ", authorityList=" + authorityList +
+                ", roleList=" + roleList +
                 '}';
     }
 }
