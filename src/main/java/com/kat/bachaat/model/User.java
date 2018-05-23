@@ -140,6 +140,7 @@ public class User {
         this.password = password;
     }
 
+
     public List<Role> getRoles() {
         return roles;
     }
