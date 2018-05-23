@@ -16,7 +16,7 @@ public class User {
     private int activationCode;
     private boolean active;
     private String password;
-    private List<Authority> authorityList;
+    private List<Role> roleList;
 
     public User() {
     }
@@ -117,12 +117,12 @@ public class User {
         this.password = password;
     }
 
-    public List<Authority> getAuthorityList() {
-        return authorityList;
+    public List<Role> getRoleList() {
+        return roleList;
     }
 
-    public void setAuthorityList(List<Authority> authorityList) {
-        this.authorityList = authorityList;
+    public void setAuthorityList(List<Role> authorityList) {
+        this.roleList = roleList;
     }
 
     @Override
@@ -140,7 +140,7 @@ public class User {
                 ", activationCode=" + activationCode +
                 ", active=" + active +
                 ", password='" + password + '\'' +
-                ", authorityList=" + authorityList +
+                ", roleList=" + roleList +
                 '}';
     }
 }

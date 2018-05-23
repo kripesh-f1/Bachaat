@@ -1,19 +1,19 @@
 package com.kat.bachaat.model;
 
 
-public class Authority {
-    private int authorityId;
+public class Role {
+    private int roleId;
     private String name;
 
-    public Authority() {
+    public Role() {
     }
 
     public int getAuthorityId() {
-        return authorityId;
+        return roleId;
     }
 
-    public void setAuthorityId(int authorityId) {
-        this.authorityId = authorityId;
+    public void setAuthorityId(int roleId) {
+        this.roleId = roleId;
     }
 
     public String getName() {
@@ -26,8 +26,8 @@ public class Authority {
 
     @Override
     public String toString() {
-        return "Authority{" +
-                "authorityId=" + authorityId +
+        return "Role{" +
+                "roleId=" + roleId +
                 ", name='" + name + '\'' +
                 '}';
     }
