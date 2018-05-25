@@ -46,7 +46,7 @@ public class TestUserController {
 
     @Test
     public void Should_ReturnListOfUsers() throws Exception {
-        given(userService.getAll()).willReturn(Arrays.asList(user));
+        given(userService.getUsers()).willReturn(Arrays.asList(user));
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/user")
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -56,7 +56,7 @@ public class TestUserController {
 
     @Test
     public void Should_ThrowException_When_NoRecordsAreFound() throws Exception {
-        given(userService.getAll()).willReturn(null);
+        given(userService.getUsers()).willReturn(null);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/user")
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

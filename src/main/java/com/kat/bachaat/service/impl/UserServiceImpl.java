@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService
     private UserRepository userRepository;
 
     @Override
-    public List<User> getAll() {
+    public List<User> getUsers() {
         logger.info("entered getAll method");
         List<User> userList=userRepository.findAll();
         if(userList.size()==0 || userList==null){

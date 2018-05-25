@@ -45,12 +45,12 @@ public class TestUserService {
     @Test
     public void Should_ReturnListOfUser(){
         when(userRepository.findAll()).thenReturn(Arrays.asList(user));
-        Assert.assertNotNull(userService.getAll());
+        Assert.assertNotNull(userService.getUsers());
     }
 
     @Test(expected = DataNotFoundException.class)
     public void Should_ThrowException_When_NoRecordsAreFound(){
-        when(userService.getAll()).thenReturn(Arrays.asList(null));
-        userService.getAll();
+        when(userService.getUsers()).thenReturn(Arrays.asList(null));
+        userService.getUsers();
     }
 }

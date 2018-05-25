@@ -22,7 +22,7 @@ public class UserController
     @GetMapping
     public ResponseEntity<List<User>> getUsers(){
         logger.info("fetch getUsers method");
-        List<User> users = userService.getAll();
+        List<User> users = userService.getUsers();
         if(users==null||users.size()==0){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
