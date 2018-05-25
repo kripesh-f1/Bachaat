@@ -16,19 +16,18 @@ import java.util.logging.Logger;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService
-{
+public class UserServiceImpl implements UserService {
 
-    private  static Logger logger=Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public List<User> getUsers() {
-        logger.info("entered getAll method");
-        List<User> userList=userRepository.findAll();
-        if(userList.size()==0 || userList==null){
+        logger.info("fetch getUser method");
+        List<User> userList = userRepository.findAll();
+        if (userList.size() == 0 || userList == null) {
             throw new DataNotFoundException("cannot find users.");
         }
         return userList;

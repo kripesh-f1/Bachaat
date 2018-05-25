@@ -12,18 +12,17 @@ import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/user")
-public class UserController
-{
-    private  static Logger logger=Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+public class UserController {
+    private static Logger logger = Logger.getLogger(UserController.class.getName());
 
     @Autowired
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers(){
+    public ResponseEntity<List<User>> getUsers() {
         logger.info("fetch getUsers method");
         List<User> users = userService.getUsers();
-        if(users==null||users.size()==0){
+        if (users == null || users.size() == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
