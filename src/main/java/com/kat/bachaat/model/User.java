@@ -6,8 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tbl_user")
-public class User
-{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,15 +35,17 @@ public class User
     @Column(name = "password")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "role_id") })
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
     private List<Role> roles;
 
-    public User()
-    {
+    public User() {
     }
 
-    public User(long id,String firstName, String lastName, String emailAddress, String address, String mobileNumber, String password) {
-        this.id=id;
+
+    public User(long id, String firstName, String lastName, String emailAddress, String address, String mobileNumber, String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
@@ -61,131 +62,120 @@ public class User
         this.id = id;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName)
-    {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getMiddleName()
-    {
+    public String getMiddleName() {
         return middleName;
     }
 
-    public void setMiddleName(String middleName)
-    {
+    public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName)
-    {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getEmailAddress()
-    {
+    public String getEmailAddress() {
         return emailAddress;
     }
 
-    public void setEmailAddress(String emailAddress)
-    {
+    public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
 
-    public String getAddress()
-    {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address)
-    {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getMobileNumber()
-    {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(String mobileNumber)
-    {
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 
-    public Date getCreatedDate()
-    {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate)
-    {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getUpdatedDate()
-    {
+    public Date getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(Date updatedDate)
-    {
+    public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
 
-    public int getActivationCode()
-    {
+    public int getActivationCode() {
         return activationCode;
     }
 
-    public void setActivationCode(int activationCode)
-    {
+    public void setActivationCode(int activationCode) {
         this.activationCode = activationCode;
     }
 
-    public boolean isActive()
-    {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active)
-    {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public List<Role> getRoles()
-    {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles)
-    {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
-    @Override
-    public String toString()
-    {
+    public String toString() {
         return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", middleName='" + middleName + '\'' + ", lastName='" + lastName + '\'' + ", emailAddress='" + emailAddress + '\''
-                   + ", address='" + address + '\'' + ", mobileNumber='" + mobileNumber + '\'' + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", activationCode=" + activationCode
-                   + ", active=" + active + ", password='" + password + '\'' + ", roles=" + roles + '}';
+                + ", address='" + address + '\'' + ", mobileNumber='" + mobileNumber + '\'' + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", activationCode=" + activationCode
+                + ", active=" + active + ", password='" + password + '\'' + ", roles=" + roles + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return mobileNumber != null ? mobileNumber.equals(user.mobileNumber) : user.mobileNumber == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return mobileNumber != null ? mobileNumber.hashCode() : 0;
     }
 }
