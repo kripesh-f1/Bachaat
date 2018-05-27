@@ -1,5 +1,6 @@
 package com.kat.bachaat.controller;
 
+
 import com.kat.bachaat.dao.UserRepository;
 import com.kat.bachaat.exception.UserAlreadyExistsException;
 import com.kat.bachaat.model.User;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.validation.Valid;
 
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -25,10 +27,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping
-    public ResponseEntity<List<User>> test() {
-        List<User> users = repo.findAll();
+    public ResponseEntity<List<User>> getUsers() {
+        logger.info("fetch getUsers method");
+        List<User> users = userService.getUsers();
+        if (users == null || users.size() == 0) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

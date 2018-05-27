@@ -2,6 +2,7 @@ package com.kat.bachaat.service;
 
 import com.kat.bachaat.dao.RoleRepository;
 import com.kat.bachaat.dao.UserRepository;
+import com.kat.bachaat.exception.DataNotFoundException;
 import com.kat.bachaat.model.Role;
 import com.kat.bachaat.model.User;
 import com.kat.bachaat.service.impl.UserServiceImpl;
@@ -40,11 +41,11 @@ public class TestUserService {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        user = new User( "Nitish", "raj", "Shrestha",
-                "nitishrestha8848@gmail.com", "dhapakhel",
-                "9849211041", "ilovenepal12345");
+        user = new User(1l, "admin", "admin",
+                "admin@admin.com", "admin",
+                "9813131", "ram");
     }
 
     @Test
@@ -55,5 +56,17 @@ public class TestUserService {
         when(userRepository.save(user)).thenReturn(user);
         when(userService.addUser(user)).thenReturn(user);
         Assert.assertNotNull(userService.addUser(user));
+    }
+
+    @Test
+    public void Should_ReturnListOfUser() {
+        when(userRepository.findAll()).thenReturn(Arrays.asList(user));
+        Assert.assertNotNull(userService.getUsers());
+    }
+
+    @Test(expected = DataNotFoundException.class)
+    public void Should_ThrowException_When_NoRecordsAreFound() {
+        when(userService.getUsers()).thenReturn(Arrays.asList(null));
+        userService.getUsers();
     }
 }
