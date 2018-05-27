@@ -12,7 +12,7 @@ public class User
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false, updatable = false)
-    private Long userId;
+    private Long id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "middle_name")
@@ -43,14 +43,22 @@ public class User
     {
     }
 
-    public Long getUserId()
-    {
-        return userId;
+    public User(long id,String firstName, String lastName, String emailAddress, String address, String mobileNumber, String password) {
+        this.id=id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.address = address;
+        this.mobileNumber = mobileNumber;
+        this.password = password;
     }
 
-    public void setUserId(Long userId)
-    {
-        this.userId = userId;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName()
@@ -176,7 +184,7 @@ public class User
     @Override
     public String toString()
     {
-        return "User{" + "userId=" + userId + ", firstName='" + firstName + '\'' + ", middleName='" + middleName + '\'' + ", lastName='" + lastName + '\'' + ", emailAddress='" + emailAddress + '\''
+        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", middleName='" + middleName + '\'' + ", lastName='" + lastName + '\'' + ", emailAddress='" + emailAddress + '\''
                    + ", address='" + address + '\'' + ", mobileNumber='" + mobileNumber + '\'' + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", activationCode=" + activationCode
                    + ", active=" + active + ", password='" + password + '\'' + ", roles=" + roles + '}';
     }
