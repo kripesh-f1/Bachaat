@@ -1,5 +1,7 @@
 package com.kat.bachaat.service;
 
-public interface UserService
-{
+import com.kat.bachaat.model.User;
+
+public interface UserService {
+    User addUser(User user);
 }
