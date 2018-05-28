@@ -43,7 +43,7 @@ public class TestUserService {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        user = new User(1l, "admin", "admin",
+        user = new User(1l,"admin",  "admin",
                 "admin@admin.com", "admin",
                 "9813131", "ram");
     }

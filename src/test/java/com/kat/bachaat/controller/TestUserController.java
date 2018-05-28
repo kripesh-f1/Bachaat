@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -19,14 +18,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 import java.util.Arrays;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestUserController {
@@ -45,18 +41,16 @@ public class TestUserController {
     public void setUp() throws Exception {
 
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-        user = new User(1l, "Nitish", "Shrestha",
+        user = new User(1l, "nitish", "Shrestha",
                 "nitishrestha8848@gmail.com", "dhapakhel",
                 "9849211041",
                 "ilovenepal12345");
-
-        user2 = new User("lastname", "email", "add", "998989", "pass");
+        user2 = new User(1l, "Shrestha",
+                "nitishrestha8848@gmail.com", "dhapakhel",
+                "9849211041",
+                "ilovenepal12345");
     }
 
-    @Bean
-    public MethodValidationPostProcessor bean() {
-        return new MethodValidationPostProcessor();
-    }
 
     @Test
     public void Should_ReturnStatusOK() throws Exception {
@@ -87,33 +81,14 @@ public class TestUserController {
 
     @Test
     public void Should_FailToAddUser_When_FirstNameIsMissing() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonString = objectMapper.writeValueAsString(user2);
-       given(userService.addUser(user2)).willReturn(user2);
-
-        RequestBuilder requestBuilder = post("/user")
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(jsonString)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(jsonString);
-/*
-
-        MvcResult mvcResult = mockMvc.perform(requestBuilder).andDo(print()).andExpect(status().isBadRequest()).andReturn();
-       // mockMvc.perform(requestBuilder);
-        String contentAsString = mvcResult.getResponse().getContentAsString();
-        System.out.println("==========="+contentAsString);
-*/
-
-        MvcResult mvcResult1 = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult1.getResponse();
-        String contentAsString1 = response.getContentAsString();
-        System.out.println(contentAsString1);
-        User newUser = objectMapper.readValue(contentAsString1,User.class);
-        Assert.assertEquals(newUser.getFirstName(),null);
-
-        /*MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = mvcResult.getResponse();
-        Assert.assertNull(response.);*/
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(user2);
+        given(userService.addUser(user2)).willReturn(user2);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user")
+                .accept(MediaType.APPLICATION_JSON).content(jsonString).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        Assert.assertEquals(result.getResponse().getStatus(), 400);
     }
 
     @Test

@@ -8,7 +8,6 @@ import com.kat.bachaat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +16,6 @@ import javax.validation.Valid;
 
 
 @RestController
-@Validated
 @RequestMapping("/user")
 public class UserController {
 
@@ -40,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody @Valid User user) {
         logger.info("Inside add User method of User Controller.");
         User user1 = userService.addUser(user);
         if (user1 == null) {

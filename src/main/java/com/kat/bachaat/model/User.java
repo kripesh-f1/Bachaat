@@ -14,7 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false, updatable = false)
+    @Column(name = "user_id")
     private Long id;
     @NotNull(message = "Please enter your first name!")
     @Column(name = "first_name")
@@ -56,7 +56,9 @@ public class User {
     public User() {
     }
 
-    public User(@NotNull(message = "Please enter your last name!") String lastName, @NotNull(message = "Please enter your email address!") String emailAddress, @NotNull(message = "Please enter your address!") String address, @NotNull(message = "Please enter your mobile number!") String mobileNumber, @NotNull(message = "Please enter your password!") String password) {
+    public User(long id, String firstName, String lastName, String emailAddress, String address, String mobileNumber, String password) {
+        this.id = id;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.address = address;
@@ -64,9 +66,8 @@ public class User {
         this.password = password;
     }
 
-    public User(long id, String firstName, String lastName, String emailAddress, String address, String mobileNumber, String password) {
+    public User(long id, String lastName, String emailAddress, String address, String mobileNumber, String password) {
         this.id = id;
-        this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.address = address;
@@ -192,11 +193,11 @@ public class User {
 
         User user = (User) o;
 
-        return mobileNumber != null ? mobileNumber.equals(user.mobileNumber) : user.mobileNumber == null;
+        return id != null ? id.equals(user.id) : user.id == null;
     }
 
     @Override
     public int hashCode() {
-        return mobileNumber != null ? mobileNumber.hashCode() : 0;
+        return id != null ? id.hashCode() : 0;
     }
 }
