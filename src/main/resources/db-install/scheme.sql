@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS bachaat;
 USE bachaat;
 
 /* TO CREATE TABLE TBL_USER */
-CREATE TABLE IF NOT EXISTS tbl_user (
+CREATE TABLE IF NOT EXISTS tbl_users (
   user_id         INT PRIMARY KEY AUTO_INCREMENT,
   first_name      VARCHAR(50),
   middle_name     VARCHAR(50),
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS tbl_user (
 );
 
 /* TO CREATE TABLE TBL_ROLE */
-CREATE TABLE IF NOT EXISTS tbl_role (
+CREATE TABLE IF NOT EXISTS tbl_roles (
   role_id INT PRIMARY KEY AUTO_INCREMENT,
   name    VARCHAR(50)
 );
