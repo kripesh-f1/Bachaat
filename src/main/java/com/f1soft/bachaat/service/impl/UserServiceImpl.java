@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUser(long id) {
+        logger.info("Delete user with id: " + id);
         try {
-            logger.info("Delete user with id: " + id);
             userRepository.deleteById(id);
             return true;
         } catch (Exception e) {
