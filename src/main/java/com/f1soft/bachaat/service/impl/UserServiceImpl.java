@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -47,6 +48,16 @@ public class UserServiceImpl implements UserService {
             throw new DataNotFoundException("Cannot find users.");
         }
         return userList;
+    }
+
+    @Override
+    public User updateUser(User user) {
+        logger.info("Inside Update User Service");
+        User currentUser = userRepository.save(user);
+        if (currentUser == null) {
+            throw new DataNotFoundException("Cannot find user.");
+        }
+        return currentUser;
     }
 
     @Override

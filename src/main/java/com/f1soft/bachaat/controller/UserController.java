@@ -39,12 +39,29 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
-        logger.info("fetch getUsers method");
+        logger.info("Fetch getUsers method");
         List<User> users = userService.getUsers();
         if (users == null || users.size() == 0) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<ApiMessageResponse> updateUser(@RequestBody @Valid User user) {
+        logger.info("Inside Update User Controller");
+        ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
+        if (user.getId() == null) {
+            logger.info("User id is null");
+            apiMessageResponse.setMessage("User id cannot be null");
+            return new ResponseEntity<>(apiMessageResponse, HttpStatus.NOT_FOUND);
+        }
+        User currentUser = userService.updateUser(user);
+        if (currentUser != null) {
+            apiMessageResponse.setMessage("User has been updated successfully!");
+            return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @PostMapping

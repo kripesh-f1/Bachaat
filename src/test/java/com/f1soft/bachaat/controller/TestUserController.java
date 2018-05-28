@@ -3,6 +3,7 @@ package com.f1soft.bachaat.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,7 +70,6 @@ public class TestUserController {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         String outputInJson = response.getContentAsString();
-//        System.out.println(outputInJson);
         Assert.assertTrue(outputInJson.contains("User of id 1 has been deleted"));
     }
 
@@ -90,7 +90,7 @@ public class TestUserController {
     @Test(expected = IllegalArgumentException.class)
     public void Should_ThrowException_When_ThereisNoSuchId() throws Exception {
         MockMvcRequestBuilders.post("/user/delete")
-                .param("id", (String[])null).contentType(MediaType.APPLICATION_JSON);
+                .param("id", (String[]) null).contentType(MediaType.APPLICATION_JSON);
     }
 
     @Test
@@ -160,4 +160,30 @@ public class TestUserController {
         Assert.assertTrue(outputInJson.isEmpty());
         Assert.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
     }
+
+    @Test
+    public void updateFood_thenReturnStatusOK() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(user);
+        given(userService.updateUser(user)).willReturn(user);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/update")
+                .accept(MediaType.APPLICATION_JSON).content(jsonString).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String outputInJson = response.getContentAsString();
+        Assert.assertTrue(outputInJson.contains("User has been updated successfully!"));
+    }
+
+    @Test
+    public void Should_ThrowException_When_NoUserIsFound() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(user);
+        given(userService.updateUser(user)).willReturn(null);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/update")
+                .accept(MediaType.APPLICATION_JSON).content(jsonString).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        Assert.assertEquals(response.getStatus(), 409);
+    }
+
 }

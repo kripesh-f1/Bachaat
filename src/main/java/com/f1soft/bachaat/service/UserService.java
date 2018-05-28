@@ -9,4 +9,6 @@ public interface UserService {
     boolean deleteUser(long id);
     List<User> getUsers();
 
+    User updateUser(User user);
+
 }
