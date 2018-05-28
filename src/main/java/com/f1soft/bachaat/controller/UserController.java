@@ -55,8 +55,8 @@ public class UserController {
         if (user.getMobileNumber().length() < 10) {
             throw new MobileNumberInvalidException("Mobile number is less than 10");
         }
-        User user1 = userService.addUser(user);
-        if (user1 == null) {
+        User u = userService.addUser(user);
+        if (u == null) {
             throw new UserAlreadyExistsException("User Already Exist!");
         } else
             return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
