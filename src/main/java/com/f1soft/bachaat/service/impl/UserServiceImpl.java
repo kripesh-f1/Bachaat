@@ -4,23 +4,30 @@ import com.f1soft.bachaat.service.UserService;
 import com.f1soft.bachaat.repository.UserRepository;
 import com.f1soft.bachaat.exception.DataNotFoundException;
 import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.repository.RoleRepository;
+import com.f1soft.bachaat.utils.ActivationCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
-
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
-
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private ActivationCodeUtil activationCodeUtil;
+
+    private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Override
     public boolean deleteUser(long id) {
@@ -53,4 +60,14 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public User addUser(User user) {
+        logger.info("Inside add User method of User Service.");
+        user.setActivationCode(activationCodeUtil.getActivationCode());
+        User u = userRepository.findByMobileNumber(user.getMobileNumber());
+        if (u == null) {
+            user.setRoles(Arrays.asList(roleRepository.findByName("USER")));
+            return userRepository.save(user);
+        } else return null;
+    }
 }
