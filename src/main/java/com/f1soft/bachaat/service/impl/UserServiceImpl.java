@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 
@@ -41,4 +42,15 @@ public class UserServiceImpl implements UserService {
         }
         return userList;
     }
+
+    @Override
+    public User updateUser(User user) {
+        logger.info("Inside Update User Service");
+        user = userRepository.save(user);
+        if (user == null) {
+            throw new DataNotFoundException("Cannot find user.");
+        }
+        return user;
+    }
+
 }
