@@ -1,15 +1,14 @@
-package com.kat.bachaat.service.impl;
+package com.f1soft.bachaat.service.impl;
 
-import com.kat.bachaat.dao.RoleRepository;
-import com.kat.bachaat.dao.UserRepository;
-import com.kat.bachaat.exception.DataNotFoundException;
-import com.kat.bachaat.model.User;
-import com.kat.bachaat.service.UserService;
+import com.f1soft.bachaat.service.UserService;
+import com.f1soft.bachaat.repository.UserRepository;
+import com.f1soft.bachaat.exception.DataNotFoundException;
+import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.repository.RoleRepository;
 import com.kat.bachaat.util.ActivationCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;

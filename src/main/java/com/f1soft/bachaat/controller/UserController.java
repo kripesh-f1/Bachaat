@@ -1,10 +1,9 @@
-package com.kat.bachaat.controller;
+package com.f1soft.bachaat.controller;
 
-
-import com.kat.bachaat.dao.UserRepository;
+import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.repository.UserRepository;
+import com.f1soft.bachaat.service.UserService;
 import com.kat.bachaat.exception.UserAlreadyExistsException;
-import com.kat.bachaat.model.User;
-import com.kat.bachaat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,11 @@
-package com.kat.bachaat.model;
+package com.f1soft.bachaat.entity;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_role")
-public class Role {
-
+@Table(name = "tbl_roles")
+public class Role
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id", nullable = false, updatable = false)

@@ -1,4 +1,4 @@
-package com.kat.bachaat;
+package com.f1soft.bachaat.configuration;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import javax.servlet.ServletRegistration;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.kat.bachaat")
+@ComponentScan(basePackages = "com.f1soft.bachaat")
 public class ApplicationConfiguration implements WebApplicationInitializer {
 
     @Override

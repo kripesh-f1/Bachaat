@@ -1,4 +1,4 @@
-package com.kat.bachaat.controller;
+package com.f1soft.bachaat.controller;
 
 import com.kat.bachaat.errormessage.DataBindingErrorMessage;
 import com.kat.bachaat.errormessage.ExceptionMessage;

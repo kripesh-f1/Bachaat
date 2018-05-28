@@ -1,6 +1,7 @@
-package com.kat.bachaat.service;
+package com.f1soft.bachaat.service;
 
-import com.kat.bachaat.model.User;
+import com.f1soft.bachaat.entity.User;
+
 import java.util.List;
 
 public interface UserService {

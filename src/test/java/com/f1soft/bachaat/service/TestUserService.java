@@ -1,11 +1,11 @@
-package com.kat.bachaat.service;
+package com.f1soft.bachaat.service;
 
-import com.kat.bachaat.dao.RoleRepository;
-import com.kat.bachaat.dao.UserRepository;
-import com.kat.bachaat.exception.DataNotFoundException;
-import com.kat.bachaat.model.Role;
-import com.kat.bachaat.model.User;
-import com.kat.bachaat.service.impl.UserServiceImpl;
+import com.f1soft.bachaat.entity.Role;
+import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.exception.DataNotFoundException;
+import com.f1soft.bachaat.repository.UserRepository;
+import com.f1soft.bachaat.service.impl.UserServiceImpl;
+import com.f1soft.bachaat.repository.RoleRepository;
 import com.kat.bachaat.util.ActivationCodeUtil;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,7 +43,7 @@ public class TestUserService {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        user = new User(1l,"admin",  "admin",
+        user = new User(1l, "admin", "admin",
                 "admin@admin.com", "admin",
                 "9813131", "ram");
     }
@@ -66,7 +66,7 @@ public class TestUserService {
 
     @Test(expected = DataNotFoundException.class)
     public void Should_ThrowException_When_NoRecordsAreFound() {
-        when(userService.getUsers()).thenReturn(Arrays.asList(null));
+        when(userService.getUsers()).thenReturn(Arrays.asList((User[]) null));
         userService.getUsers();
     }
 }

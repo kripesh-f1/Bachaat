@@ -1,4 +1,4 @@
-package com.kat.bachaat.model;
+package com.f1soft.bachaat.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,9 +9,9 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "tbl_user")
-public class User {
-
+@Table(name = "tbl_users")
+public class User
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")

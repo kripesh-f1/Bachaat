@@ -1,8 +1,8 @@
-package com.kat.bachaat.controller;
+package com.f1soft.bachaat.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kat.bachaat.model.User;
-import com.kat.bachaat.service.UserService;
+import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.service.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -81,13 +81,46 @@ public class TestUserController {
 
     @Test
     public void Should_FailToAddUser_When_FirstNameIsMissing() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(user2);
-        given(userService.addUser(user2)).willReturn(user2);
+        String userWithNoFirstName = "{\"lastName\":\"Khanal\",\"mobileNumber\":\"94999545989\",\"emailAddress\":\"aasis@gmail.com\",\"address\":\"jhapa\",\"password\":\"password\"}";
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user")
-                .accept(MediaType.APPLICATION_JSON).content(jsonString).contentType(MediaType.APPLICATION_JSON);
+                .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
+        Assert.assertEquals(result.getResponse().getStatus(), 400);
+    }
+
+    @Test
+    public void Should_FailToAddUser_When_LastNameIsMissing() throws Exception {
+        String userWithNoFirstName = "{\"firstName\":\"Aashis\",\"mobileNumber\":\"94999545989\",\"emailAddress\":\"aasis@gmail.com\",\"address\":\"jhapa\",\"password\":\"password\"}";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user")
+                .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals(result.getResponse().getStatus(), 400);
+    }
+
+    @Test
+    public void Should_FailToAddUser_When_AddressIsMissing() throws Exception {
+        String userWithNoFirstName = "{\"firstName\":\"Aashis\",\"mobileNumber\":\"94999545989\",\"emailAddress\":\"aasis@gmail.com\",\"password\":\"password\"}";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user")
+                .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals(result.getResponse().getStatus(), 400);
+    }
+
+    @Test
+    public void Should_FailToAddUser_When_EmailAddressIsMissing() throws Exception {
+        String userWithNoFirstName = "{\"firstName\":\"Aashis\",\"mobileNumber\":\"94999545989\",\"address\":\"jhapa\",\"password\":\"password\"}";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user")
+                .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        Assert.assertEquals(result.getResponse().getStatus(), 400);
+    }
+
+    @Test
+    public void Should_FailToAddUser_When_PasswordIsMissing() throws Exception {
+        String userWithNoFirstName = "{\"firstName\":\"Aashis\",\"mobileNumber\":\"94999545989\",\"emailAddress\":\"aasis@gmail.com\",\"address\":\"jhapa\"}";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user")
+                .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(result.getResponse().getStatus(), 400);
     }
 
