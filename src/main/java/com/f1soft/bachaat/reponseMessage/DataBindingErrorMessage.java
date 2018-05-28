@@ -1,4 +1,4 @@
-package com.kat.bachaat.errormessage;
+package com.f1soft.bachaat.reponseMessage;
 
 import java.util.List;
 

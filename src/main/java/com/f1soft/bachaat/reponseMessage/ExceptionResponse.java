@@ -1,6 +1,6 @@
-package com.kat.bachaat.errormessage;
+package com.f1soft.bachaat.reponseMessage;
 
-public class ExceptionMessage {
+public class ExceptionResponse {
     private String message;
     private String callerUrl;
 

@@ -2,8 +2,9 @@ package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.repository.UserRepository;
+import com.f1soft.bachaat.reponseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.UserService;
-import com.kat.bachaat.exception.UserAlreadyExistsException;
+import com.f1soft.bachaat.exception.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,19 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/delete")
+    public ResponseEntity<ApiMessageResponse> deleteUser(@RequestParam long id) {
+
+        logger.info("Deleting user with id: " + id);
+        boolean user = userService.deleteUser(id);
+        if (user) {
+            ApiMessageResponse apiMessageResponse =new ApiMessageResponse();
+            apiMessageResponse.setMessage("User of id "+id+" has been deleted");
+            return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {

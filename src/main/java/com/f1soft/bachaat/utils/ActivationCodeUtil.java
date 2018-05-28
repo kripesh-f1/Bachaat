@@ -1,4 +1,4 @@
-package com.kat.bachaat.util;
+package com.f1soft.bachaat.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

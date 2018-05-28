@@ -39,7 +39,6 @@ public class TestUserController {
 
     @Before
     public void setUp() throws Exception {
-
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
         user = new User(1l, "nitish", "Shrestha",
                 "nitishrestha8848@gmail.com", "dhapakhel",
@@ -66,6 +65,39 @@ public class TestUserController {
         User user = objectMapper.readValue(outputInJson, objectMapper.getTypeFactory().constructType(User.class));
         Assert.assertNotNull(user);
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    @Test
+    public void Should_DeleteUserRecord() throws Exception {
+        String id = user.getId().toString();
+        given(userService.deleteUser(user.getId())).willReturn(true);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/delete")
+                .param("id", id).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String outputInJson = response.getContentAsString();
+//        System.out.println(outputInJson);
+        Assert.assertTrue(outputInJson.contains("User of id 1 has been deleted"));
+    }
+
+    @Test
+    public void Should_ThrowException_When_NoRecordsOfSuchIdIsFound() throws Exception {
+        String id = user.getId().toString();
+        given(userService.deleteUser(user.getId())).willReturn(false);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/delete")
+                .param("id", id).contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String outputInJson = response.getContentAsString();
+        Boolean param = Boolean.parseBoolean(outputInJson);
+        Assert.assertFalse(param);
+        Assert.assertEquals(HttpStatus.CONFLICT.value(), response.getStatus());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void Should_ThrowException_When_ThereisNoSuchId() throws Exception {
+        MockMvcRequestBuilders.post("/user/delete")
+                .param("id", (String[])null).contentType(MediaType.APPLICATION_JSON);
     }
 
     @Test

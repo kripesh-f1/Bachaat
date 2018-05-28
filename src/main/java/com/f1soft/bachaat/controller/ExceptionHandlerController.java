@@ -1,8 +1,9 @@
 package com.f1soft.bachaat.controller;
 
-import com.kat.bachaat.errormessage.DataBindingErrorMessage;
-import com.kat.bachaat.errormessage.ExceptionMessage;
-import com.kat.bachaat.exception.UserAlreadyExistsException;
+import com.f1soft.bachaat.exception.DataNotFoundException;
+import com.f1soft.bachaat.exception.UserAlreadyExistsException;
+import com.f1soft.bachaat.reponseMessage.DataBindingErrorMessage;
+import com.f1soft.bachaat.reponseMessage.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,8 +20,8 @@ import java.util.List;
 public class ExceptionHandlerController {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ExceptionMessage> unAuthorizedException(final UserAlreadyExistsException ex, final HttpServletRequest request) {
-        ExceptionMessage error = new ExceptionMessage();
+    public ResponseEntity<ExceptionResponse> unAuthorizedException(final UserAlreadyExistsException ex, final HttpServletRequest request) {
+        ExceptionResponse error = new ExceptionResponse();
         error.setMessage(ex.getMessage());
         error.setCallerUrl(request.getRequestURI());
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
@@ -48,5 +49,13 @@ public class ExceptionHandlerController {
         }
         dataBindingErrorMessage.setErrors(errors);
         return dataBindingErrorMessage;
+    }
+
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> userNotFoundException(final DataNotFoundException ex, final HttpServletRequest request) {
+        ExceptionResponse error = new ExceptionResponse();
+        error.setMessage(ex.getMessage());
+        error.setCallerUrl(request.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 }

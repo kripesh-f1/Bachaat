@@ -6,7 +6,7 @@ import com.f1soft.bachaat.exception.DataNotFoundException;
 import com.f1soft.bachaat.repository.UserRepository;
 import com.f1soft.bachaat.service.impl.UserServiceImpl;
 import com.f1soft.bachaat.repository.RoleRepository;
-import com.kat.bachaat.util.ActivationCodeUtil;
+import com.f1soft.bachaat.utils.ActivationCodeUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,8 +18,11 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.BDDMockito.when;
+
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.when;
 
 public class TestUserService {
 
@@ -58,8 +61,19 @@ public class TestUserService {
         Assert.assertNotNull(userService.addUser(user));
     }
 
+    public void Should_DeleteUserOfThatId(){
+        doNothing().when(userRepository).deleteById(user.getId());
+        Assert.assertTrue(userService.deleteUser(user.getId()));
+    }
+
+    @Test(expected = DataNotFoundException.class)
+    public void Should_ThrowException_WhenInvalidArgumentIsPassed() {
+        doThrow(new IllegalArgumentException()).when(userRepository).deleteById(user.getId());
+        userService.deleteUser(user.getId());
+    }
+
     @Test
-    public void Should_ReturnListOfUser() {
+    public void Should_ReturnListOfUser(){
         when(userRepository.findAll()).thenReturn(Arrays.asList(user));
         Assert.assertNotNull(userService.getUsers());
     }
