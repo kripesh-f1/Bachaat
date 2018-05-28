@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers() {
-        logger.info("fetch users from getUsers()");
+        logger.info("Fetch users from getUsers()");
         List<User> userList = userRepository.findAll();
         if (userList.size() == 0 || userList == null) {
             throw new DataNotFoundException("Cannot find users.");
