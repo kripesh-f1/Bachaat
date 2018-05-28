@@ -47,21 +47,20 @@ public class TestUserController {
     public void Should_DeleteUserRecord() throws Exception {
         String id = user.getId().toString();
         given(userService.deleteUser(user.getId())).willReturn(true);
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/user/delete")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/delete")
                 .param("id", id).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         String outputInJson = response.getContentAsString();
-        Boolean param = Boolean.parseBoolean(outputInJson);
-        Assert.assertTrue(param);
-        Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
+//        System.out.println(outputInJson);
+        Assert.assertTrue(outputInJson.contains("User of id 1 has been deleted"));
     }
 
     @Test
     public void Should_ThrowException_When_NoRecordsOfSuchIdIsFound() throws Exception {
         String id = user.getId().toString();
         given(userService.deleteUser(user.getId())).willReturn(false);
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/user/delete")
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/user/delete")
                 .param("id", id).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -69,6 +68,12 @@ public class TestUserController {
         Boolean param = Boolean.parseBoolean(outputInJson);
         Assert.assertFalse(param);
         Assert.assertEquals(HttpStatus.CONFLICT.value(), response.getStatus());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void Should_ThrowException_When_ThereisNoSuchId() throws Exception {
+        MockMvcRequestBuilders.post("/user/delete")
+                .param("id", null).contentType(MediaType.APPLICATION_JSON);
     }
 
     @Test

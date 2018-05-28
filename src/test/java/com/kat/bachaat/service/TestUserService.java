@@ -46,7 +46,7 @@ public class TestUserService {
         Assert.assertTrue(userService.deleteUser(user.getId()));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataNotFoundException.class)
     public void Should_ThrowException_WhenInvalidArgumentIsPassed() {
         doThrow(new IllegalArgumentException()).when(userRepository).deleteById(user.getId());
         userService.deleteUser(user.getId());

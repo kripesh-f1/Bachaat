@@ -1,5 +1,6 @@
 package com.kat.bachaat.controller;
 
+import com.kat.bachaat.errormessage.ApiMessageResponse;
 import com.kat.bachaat.model.User;
 import com.kat.bachaat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +15,22 @@ import java.util.logging.Logger;
 @RequestMapping("/user")
 public class UserController {
 
-    Logger logger = Logger.getLogger(UserController.class.getName());
+    private static Logger logger = Logger.getLogger(UserController.class.getName());
 
     @Autowired
     private UserService userService;
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Boolean> deleteUser(@RequestParam long id) {
-        logger.info("fetch deleteUser method");
+    @PostMapping("/delete")
+    public ResponseEntity<ApiMessageResponse> deleteUser(@RequestParam long id) {
+
+        logger.info("Deleting user with id: " + id);
         boolean user = userService.deleteUser(id);
-        if (user == false) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        if (user) {
+            ApiMessageResponse apiMessageResponse =new ApiMessageResponse();
+            apiMessageResponse.setMessage("User of id "+id+" has been deleted");
+            return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @GetMapping

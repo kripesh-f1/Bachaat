@@ -23,17 +23,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUser(long id) {
-        logger.info("fetch deleteUser method");
-        userRepository.deleteById(id);
-        return true;
+        try {
+            logger.info("Delete user with id: " + id);
+            userRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            throw new DataNotFoundException("User not found with id: " + id);
+        }
     }
 
     @Override
     public List<User> getUsers() {
-        logger.info("fetch getUser method");
+        logger.info("fetch users from getUsers()");
         List<User> userList = userRepository.findAll();
         if (userList.size() == 0 || userList == null) {
-            throw new DataNotFoundException("cannot find users.");
+            throw new DataNotFoundException("Cannot find users.");
         }
         return userList;
     }
