@@ -53,8 +53,8 @@ public class UserServiceImpl implements UserService {
     public User addUser(User user) {
         logger.info("Inside add User method of User Service.");
         user.setActivationCode(activationCodeUtil.getActivationCode());
-        User user1 = userRepository.findByMobileNumber(user.getMobileNumber());
-        if (user1 == null) {
+        User u = userRepository.findByMobileNumber(user.getMobileNumber());
+        if (u == null) {
             user.setRoles(Arrays.asList(roleRepository.findByName("USER")));
             return userRepository.save(user);
         } else return null;

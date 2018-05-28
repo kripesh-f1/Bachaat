@@ -3,7 +3,7 @@ package com.f1soft.bachaat.controller;
 import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.exception.MobileNumberInvalidException;
 import com.f1soft.bachaat.exception.UserAlreadyExistsException;
-import com.f1soft.bachaat.reponseMessage.ApiMessageResponse;
+import com.f1soft.bachaat.responseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

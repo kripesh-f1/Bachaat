@@ -1,4 +1,4 @@
-package com.f1soft.bachaat.reponseMessage;
+package com.f1soft.bachaat.responseMessage;
 
 import java.util.List;
 

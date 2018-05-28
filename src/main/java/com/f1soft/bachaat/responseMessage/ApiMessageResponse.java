@@ -1,4 +1,4 @@
-package com.f1soft.bachaat.reponseMessage;
+package com.f1soft.bachaat.responseMessage;
 
 public class ApiMessageResponse {
     private String message;
