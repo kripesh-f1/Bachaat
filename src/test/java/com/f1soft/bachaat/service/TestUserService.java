@@ -1,10 +1,9 @@
-package com.kat.bachaat.service;
+package com.f1soft.bachaat.service;
 
-import com.kat.bachaat.dao.UserRepository;
-import com.kat.bachaat.exception.DataNotFoundException;
-import com.kat.bachaat.model.Role;
-import com.kat.bachaat.model.User;
-import com.kat.bachaat.service.impl.UserServiceImpl;
+import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.exception.DataNotFoundException;
+import com.f1soft.bachaat.repository.UserRepository;
+import com.f1soft.bachaat.service.impl.UserServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,13 +12,12 @@ import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+
+import static org.mockito.Mockito.when;
 
 public class TestUserService {
 
@@ -50,7 +48,7 @@ public class TestUserService {
 
     @Test(expected = DataNotFoundException.class)
     public void Should_ThrowException_When_NoRecordsAreFound(){
-        when(userService.getUsers()).thenReturn(Arrays.asList(null));
+        when(userService.getUsers()).thenReturn(Arrays.asList((User[])null));
         userService.getUsers();
     }
 }

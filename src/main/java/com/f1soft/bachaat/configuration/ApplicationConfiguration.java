@@ -13,7 +13,7 @@ import javax.servlet.ServletRegistration;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.kat.bachaat")
+@ComponentScan(basePackages = "com.f1soft.bachaat")
 public class ApplicationConfiguration implements WebApplicationInitializer {
 
     @Override

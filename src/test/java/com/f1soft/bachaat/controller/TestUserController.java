@@ -1,7 +1,7 @@
-package com.kat.bachaat.controller;
+package com.f1soft.bachaat.controller;
 
-import com.kat.bachaat.model.User;
-import com.kat.bachaat.service.UserService;
+import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.service.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
