@@ -32,7 +32,7 @@ public class DataBindingErrorMessage {
         this.errors = errors;
     }
 
-    public class Error {
+    public class Error{
 
         private String fieldName;
 

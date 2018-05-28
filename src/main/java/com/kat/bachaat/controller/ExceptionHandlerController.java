@@ -8,14 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class ExceptionHandlerController {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
@@ -30,12 +30,12 @@ public class ExceptionHandlerController {
     public ResponseEntity<DataBindingErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         exception.printStackTrace();
         DataBindingErrorMessage dataBindingErrorMessage = dataBindingErrorMessagesConverter(exception.getBindingResult());
-        return new ResponseEntity<>(dataBindingErrorMessage, HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(dataBindingErrorMessage, HttpStatus.BAD_REQUEST);
     }
 
     public DataBindingErrorMessage dataBindingErrorMessagesConverter(BindingResult bindingResult) {
         DataBindingErrorMessage dataBindingErrorMessage = new DataBindingErrorMessage();
-        dataBindingErrorMessage.setErrorMessage("User parameter is missing!");
+        dataBindingErrorMessage.setErrorMessage("Invalid request parameter");
         dataBindingErrorMessage.setCode(HttpStatus.BAD_REQUEST.value());
         List<DataBindingErrorMessage.Error> errors = new ArrayList<>();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -49,5 +49,4 @@ public class ExceptionHandlerController {
         dataBindingErrorMessage.setErrors(errors);
         return dataBindingErrorMessage;
     }
-
 }

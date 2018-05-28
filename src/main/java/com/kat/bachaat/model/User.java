@@ -4,7 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -16,22 +16,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false, updatable = false)
     private Long id;
-    @NotBlank(message = "Please enter your first name!")
+    @NotNull(message = "Please enter your first name!")
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "middle_name")
     private String middleName;
-    @NotBlank(message = "Please enter your last name!")
+    @NotNull(message = "Please enter your last name!")
     @Column(name = "last_name")
     private String lastName;
-    @NotBlank(message = "Please enter your email address!")
+    @NotNull(message = "Please enter your email address!")
     @Column(name = "email_address")
     private String emailAddress;
-    @NotBlank(message = "Please enter your address!")
+    @NotNull(message = "Please enter your address!")
     @Column(name = "address")
     private String address;
     @Column(name = "mobile_number")
-    @NotBlank(message = "Please enter your mobile number!")
+    @NotNull(message = "Please enter your mobile number!")
     private String mobileNumber;
     @CreationTimestamp
     @Column(name = "created_date", updatable = false)
@@ -42,21 +42,29 @@ public class User {
     @Column(name = "activation_code")
     private int activationCode;
     @Column(name = "active")
-    private boolean active=false;
-    @NotBlank(message = "Please enter your password!")
+    private boolean active = false;
+    @NotNull(message = "Please enter your password!")
     @Column(name = "password")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id",
-            referencedColumnName = "user_id")},
+                    referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
     private List<Role> roles;
 
     public User() {
     }
 
-    public User(long id,String firstName, String lastName, String emailAddress, String address, String mobileNumber, String password) {
+    public User(@NotNull(message = "Please enter your last name!") String lastName, @NotNull(message = "Please enter your email address!") String emailAddress, @NotNull(message = "Please enter your address!") String address, @NotNull(message = "Please enter your mobile number!") String mobileNumber, @NotNull(message = "Please enter your password!") String password) {
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.address = address;
+        this.mobileNumber = mobileNumber;
+        this.password = password;
+    }
+
+    public User(long id, String firstName, String lastName, String emailAddress, String address, String mobileNumber, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -174,7 +182,7 @@ public class User {
     public String toString() {
         return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", middleName='" + middleName + '\'' + ", lastName='" + lastName + '\'' + ", emailAddress='" + emailAddress + '\''
                 + ", address='" + address + '\'' + ", mobileNumber='" + mobileNumber + '\'' + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", activationCode=" + activationCode
-                + ", active=" + active + ", password='" + password + '\'' + ", roles=" + roles + '}';
+                + ", active=" + active + ", password='" + password + '\'' + '}';
     }
 
     @Override
