@@ -53,11 +53,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         logger.info("Inside Update User Service");
-        user = userRepository.save(user);
-        if (user == null) {
+        User currentUser = userRepository.save(user);
+        if (currentUser == null) {
             throw new DataNotFoundException("Cannot find user.");
         }
-        return user;
+        return currentUser;
     }
 
     @Override
