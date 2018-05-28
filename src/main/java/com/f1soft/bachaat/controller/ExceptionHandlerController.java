@@ -1,6 +1,7 @@
 package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.exception.DataNotFoundException;
+import com.f1soft.bachaat.exception.MobileNumberInvalidException;
 import com.f1soft.bachaat.exception.UserAlreadyExistsException;
 import com.f1soft.bachaat.reponseMessage.DataBindingErrorMessage;
 import com.f1soft.bachaat.reponseMessage.ExceptionResponse;
@@ -21,6 +22,14 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> unAuthorizedException(final UserAlreadyExistsException ex, final HttpServletRequest request) {
+        ExceptionResponse error = new ExceptionResponse();
+        error.setMessage(ex.getMessage());
+        error.setCallerUrl(request.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(MobileNumberInvalidException.class)
+    public ResponseEntity<ExceptionResponse> unAuthorizedException(final MobileNumberInvalidException ex, final HttpServletRequest request) {
         ExceptionResponse error = new ExceptionResponse();
         error.setMessage(ex.getMessage());
         error.setCallerUrl(request.getRequestURI());

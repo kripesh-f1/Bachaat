@@ -30,7 +30,7 @@ public class User
     @NotNull(message = "Please enter your address!")
     @Column(name = "address")
     private String address;
-    @Column(name = "mobile_number")
+    @Column(name = "mobile_number", unique = true)
     @NotNull(message = "Please enter your mobile number!")
     private String mobileNumber;
     @CreationTimestamp

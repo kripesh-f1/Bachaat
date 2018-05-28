@@ -35,7 +35,7 @@ public class TestUserController {
     @InjectMocks
     private UserController userController;
 
-    User user, user2;
+    User user;
 
     @Before
     public void setUp() throws Exception {
@@ -44,12 +44,7 @@ public class TestUserController {
                 "nitishrestha8848@gmail.com", "dhapakhel",
                 "9849211041",
                 "ilovenepal12345");
-        user2 = new User(1l, "Shrestha",
-                "nitishrestha8848@gmail.com", "dhapakhel",
-                "9849211041",
-                "ilovenepal12345");
     }
-
 
     @Test
     public void Should_ReturnStatusOK() throws Exception {
@@ -62,9 +57,7 @@ public class TestUserController {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         String outputInJson = response.getContentAsString();
-        User user = objectMapper.readValue(outputInJson, objectMapper.getTypeFactory().constructType(User.class));
-        Assert.assertNotNull(user);
-        Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
+        Assert.assertTrue(outputInJson.contains("User has been added successfully!"));
     }
 
     @Test
