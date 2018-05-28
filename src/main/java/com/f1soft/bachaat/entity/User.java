@@ -1,6 +1,10 @@
 package com.f1soft.bachaat.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -10,43 +14,60 @@ public class User
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false, updatable = false)
+    @Column(name = "user_id")
     private Long id;
+    @NotNull(message = "Please enter your first name!")
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "middle_name")
     private String middleName;
+    @NotNull(message = "Please enter your last name!")
     @Column(name = "last_name")
     private String lastName;
+    @NotNull(message = "Please enter your email address!")
     @Column(name = "email_address")
     private String emailAddress;
+    @NotNull(message = "Please enter your address!")
     @Column(name = "address")
     private String address;
-    @Column(name = "mobile_number")
+    @Column(name = "mobile_number", unique = true)
+    @NotNull(message = "Please enter your mobile number!")
     private String mobileNumber;
-    @Column(name = "created_date")
+    @CreationTimestamp
+    @Column(name = "created_date", updatable = false)
     private Date createdDate;
+    @UpdateTimestamp
     @Column(name = "updated_date")
     private Date updatedDate;
     @Column(name = "activation_code")
     private int activationCode;
     @Column(name = "active")
-    private boolean active;
+    private boolean active = false;
+    @NotNull(message = "Please enter your password!")
     @Column(name = "password")
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "user_role",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            joinColumns = {@JoinColumn(name = "user_id",
+                    referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
     private List<Role> roles;
 
     public User() {
     }
 
-
     public User(long id, String firstName, String lastName, String emailAddress, String address, String mobileNumber, String password) {
         this.id = id;
         this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.address = address;
+        this.mobileNumber = mobileNumber;
+        this.password = password;
+    }
+
+    public User(long id, String lastName, String emailAddress, String address, String mobileNumber, String password) {
+        this.id = id;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.address = address;
@@ -162,7 +183,7 @@ public class User
     public String toString() {
         return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", middleName='" + middleName + '\'' + ", lastName='" + lastName + '\'' + ", emailAddress='" + emailAddress + '\''
                 + ", address='" + address + '\'' + ", mobileNumber='" + mobileNumber + '\'' + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", activationCode=" + activationCode
-                + ", active=" + active + ", password='" + password + '\'' + ", roles=" + roles + '}';
+                + ", active=" + active + ", password='" + password + '\'' + '}';
     }
 
     @Override
@@ -172,11 +193,11 @@ public class User
 
         User user = (User) o;
 
-        return mobileNumber != null ? mobileNumber.equals(user.mobileNumber) : user.mobileNumber == null;
+        return id != null ? id.equals(user.id) : user.id == null;
     }
 
     @Override
     public int hashCode() {
-        return mobileNumber != null ? mobileNumber.hashCode() : 0;
+        return id != null ? id.hashCode() : 0;
     }
 }

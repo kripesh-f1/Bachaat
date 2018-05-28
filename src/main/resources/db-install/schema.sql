@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS tbl_users (
   address         VARCHAR(50),
   activation_code INT,
   created_date    TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
-  updated_date    TIMESTAMP       DEFAULT 0 ON UPDATE CURRENT_TIMESTAMP,
+  updated_date    TIMESTAMP       DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   active          BOOLEAN         DEFAULT FALSE
 );
 
