@@ -4,7 +4,10 @@ import com.f1soft.bachaat.entity.User;
 
 import java.util.List;
 
-public interface UserService
-{
+public interface UserService {
+
+    boolean deleteUser(long id);
+
     List<User> getUsers();
+
 }

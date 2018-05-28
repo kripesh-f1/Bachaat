@@ -14,8 +14,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.BDDMockito.when;
+
 
 import static org.mockito.Mockito.when;
 
@@ -35,9 +38,21 @@ public class TestUserService {
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
-        user = new User("admin", "admin",
-                "admin@admin.com", "admin",
+        user = new User(1,"admin", "admin",
+                        "admin@admin.com", "admin",
                 "9813131", "ram");
+    }
+
+    @Test
+    public void Should_DeleteUserOfThatId(){
+        doNothing().when(userRepository).deleteById(user.getId());
+        Assert.assertTrue(userService.deleteUser(user.getId()));
+    }
+
+    @Test(expected = DataNotFoundException.class)
+    public void Should_ThrowException_WhenInvalidArgumentIsPassed() {
+        doThrow(new IllegalArgumentException()).when(userRepository).deleteById(user.getId());
+        userService.deleteUser(user.getId());
     }
 
     @Test

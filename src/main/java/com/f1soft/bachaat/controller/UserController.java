@@ -1,6 +1,7 @@
 package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.reponseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,24 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     private static Logger logger = Logger.getLogger(UserController.class.getName());
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/delete")
+    public ResponseEntity<ApiMessageResponse> deleteUser(@RequestParam long id) {
+
+        logger.info("Deleting user with id: " + id);
+        boolean user = userService.deleteUser(id);
+        if (user) {
+            ApiMessageResponse apiMessageResponse =new ApiMessageResponse();
+            apiMessageResponse.setMessage("User of id "+id+" has been deleted");
+            return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
