@@ -1,4 +1,4 @@
-package com.kat.bachaat;
+package com.f1soft.bachaat.configuration;
 
 import org.apache.catalina.startup.Tomcat;
 

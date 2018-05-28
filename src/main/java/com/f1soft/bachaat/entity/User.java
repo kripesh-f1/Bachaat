@@ -1,11 +1,11 @@
-package com.kat.bachaat.model;
+package com.f1soft.bachaat.entity;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "tbl_user")
+@Table(name = "tbl_users")
 public class User
 {
 

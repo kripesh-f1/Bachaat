@@ -1,6 +1,6 @@
-package com.kat.bachaat.service.impl;
+package com.f1soft.bachaat.service.impl;
 
-import com.kat.bachaat.service.UserService;
+import com.f1soft.bachaat.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service

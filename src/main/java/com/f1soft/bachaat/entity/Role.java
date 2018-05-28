@@ -1,9 +1,9 @@
-package com.kat.bachaat.model;
+package com.f1soft.bachaat.entity;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_role")
+@Table(name = "tbl_roles")
 public class Role
 {
 
