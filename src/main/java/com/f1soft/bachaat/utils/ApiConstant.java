@@ -6,4 +6,6 @@ public class ApiConstant {
     public static final String USER_PATH = "/user";
     public static final String UPDATE_PATH = "/update";
     public static final String DELETE_PATH = "/delete";
+    public static final String MENU_PATH = "/menu";
+
 }
