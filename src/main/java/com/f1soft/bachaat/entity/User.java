@@ -5,6 +5,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class User
     @NotNull(message = "Please enter your address!")
     @Column(name = "address")
     private String address;
+    @Size(min = 10, message = "Mobile number cannot be less than 10")
     @Column(name = "mobile_number", unique = true)
     @NotNull(message = "Please enter your mobile number!")
     private String mobileNumber;
@@ -39,7 +41,7 @@ public class User
     @UpdateTimestamp
     @Column(name = "updated_date")
     private Date updatedDate;
-    @Column(name = "activation_code")
+    @Column(name = "activation_code", updatable = false, unique = true)
     private int activationCode;
     @Column(name = "active")
     private boolean active = false;

@@ -1,5 +1,7 @@
 package com.f1soft.bachaat.service.impl;
 
+import com.f1soft.bachaat.exception.MobileNumberInvalidException;
+import com.f1soft.bachaat.exception.UserAlreadyExistsException;
 import com.f1soft.bachaat.service.UserService;
 import com.f1soft.bachaat.repository.UserRepository;
 import com.f1soft.bachaat.exception.DataNotFoundException;
@@ -30,11 +32,10 @@ public class UserServiceImpl implements UserService {
     private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Override
-    public boolean deleteUser(long id) {
-        logger.info("Delete user with id: " + id);
+    public void deleteUser(long id) {
+        logger.info("Inside Delete User Service");
         try {
             userRepository.deleteById(id);
-            return true;
         } catch (Exception e) {
             throw new DataNotFoundException("User not found with id: " + id);
         }
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers() {
-        logger.info("Fetch users from getUsers()");
+        logger.info("Inside Get Users Service");
         List<User> userList = userRepository.findAll();
         if (userList.size() == 0 || userList == null) {
             throw new DataNotFoundException("Cannot find users.");
@@ -53,21 +54,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         logger.info("Inside Update User Service");
-        User currentUser = userRepository.save(user);
-        if (currentUser == null) {
-            throw new DataNotFoundException("Cannot find user.");
+        if (user.getId() == null)
+        {
+            throw new DataNotFoundException("User id can not be null");
         }
-        return currentUser;
+        if(!userRepository.findById(user.getId()).isPresent())
+        {
+            throw new DataNotFoundException("User with id " + user.getId() + " cannot be found");
+        }
+
+       return userRepository.save(user);
     }
 
     @Override
     public User addUser(User user) {
-        logger.info("Inside add User method of User Service.");
-        user.setActivationCode(activationCodeUtil.getActivationCode());
+        logger.info("Inside Add User Service");
         User u = userRepository.findByMobileNumber(user.getMobileNumber());
-        if (u == null) {
-            user.setRoles(Arrays.asList(roleRepository.findByName("USER")));
-            return userRepository.save(user);
-        } else return null;
+        if (u != null) {
+            throw new UserAlreadyExistsException("User with " + u.getMobileNumber() + " mobile number already exist.");
+        }
+        user.setActivationCode(activationCodeUtil.getActivationCode());
+        user.setRoles(Arrays.asList(roleRepository.findByName("USER")));
+        return userRepository.save(user);
     }
 }
