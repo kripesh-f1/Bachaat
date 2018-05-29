@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
     private static Logger logger = Logger.getLogger(UserController.class.getName());
