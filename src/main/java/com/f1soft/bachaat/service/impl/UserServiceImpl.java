@@ -1,19 +1,18 @@
 package com.f1soft.bachaat.service.impl;
 
-import com.f1soft.bachaat.exception.MobileNumberInvalidException;
-import com.f1soft.bachaat.exception.UserAlreadyExistsException;
-import com.f1soft.bachaat.service.UserService;
-import com.f1soft.bachaat.repository.UserRepository;
-import com.f1soft.bachaat.exception.DataNotFoundException;
 import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.exception.DataNotFoundException;
+import com.f1soft.bachaat.exception.UserAlreadyExistsException;
 import com.f1soft.bachaat.repository.RoleRepository;
+import com.f1soft.bachaat.repository.UserRepository;
+import com.f1soft.bachaat.service.UserService;
 import com.f1soft.bachaat.utils.ActivationCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -54,16 +53,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         logger.info("Inside Update User Service");
-        if (user.getId() == null)
-        {
+        if (user.getId() == null) {
             throw new DataNotFoundException("User id can not be null");
         }
-        if(!userRepository.findById(user.getId()).isPresent())
-        {
+        if (!userRepository.findById(user.getId()).isPresent()) {
             throw new DataNotFoundException("User with id " + user.getId() + " cannot be found");
         }
 
-       return userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
