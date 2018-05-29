@@ -1,8 +1,6 @@
 package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.entity.User;
-import com.f1soft.bachaat.exception.MobileNumberInvalidException;
-import com.f1soft.bachaat.exception.UserAlreadyExistsException;
 import com.f1soft.bachaat.responseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +46,7 @@ public class UserController {
         ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
         userService.updateUser(user);
         apiMessageResponse.setMessage("User has been updated successfully.");
-        return new ResponseEntity<>(apiMessageResponse,HttpStatus.OK);
+        return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
     }
 
     @PostMapping
@@ -58,5 +56,5 @@ public class UserController {
         userService.addUser(user);
         apiMessageResponse.setMessage("User has been added successfully.");
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
-     }
+    }
 }
