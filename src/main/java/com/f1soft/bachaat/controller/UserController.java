@@ -14,9 +14,10 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static com.f1soft.bachaat.utils.ApiConstant.*;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping(API_VER + USER_PATH)
 public class UserController {
 
     private static Logger logger = Logger.getLogger(UserController.class.getName());
@@ -24,7 +25,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/delete")
+    @PostMapping(DELETE_PATH)
     public ResponseEntity<ApiMessageResponse> deleteUser(@RequestParam long id) {
 
         logger.info("Deleting user with id: " + id);
@@ -47,7 +48,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PostMapping("/update")
+    @PostMapping(UPDATE_PATH)
     public ResponseEntity<ApiMessageResponse> updateUser(@RequestBody @Valid User user) {
         logger.info("Inside Update User Controller");
         ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
