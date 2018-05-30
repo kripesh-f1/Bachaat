@@ -11,10 +11,13 @@ public class Menu {
     @Column(name = "menu_id")
     private long id;
     @NotNull(message = "Menu cannot be null.")
+    @Column(name = "menu_name")
     private String name;
+    @Column(name = "parent_id")
     private long parentId;
     @NotNull(message = "Link cannot be null.")
     private String link;
+    @Column(name = "menu_status")
     private boolean status = true;
 
     public Menu() {
