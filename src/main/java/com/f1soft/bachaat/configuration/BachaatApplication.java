@@ -39,7 +39,7 @@ public class BachaatApplication {
         if (port != null) {
             return Integer.valueOf(port);
         }
-        return 8000;
+        return 8080;
     }
 }
 

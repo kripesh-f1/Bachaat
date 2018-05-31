@@ -27,7 +27,7 @@ public class MenuController {
 
     @PostMapping
     public ResponseEntity<ApiMessageResponse> addMenu(@RequestBody @Valid Menu menu) {
-        logger.info("Controller: addMenu(): START");
+        logger.info("Menu Controller: addMenu(): START");
         ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
         menuService.addMenu(menu);
         apiMessageResponse.setMessage("Menu has been added successfully.");
