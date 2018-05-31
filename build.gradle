@@ -1,4 +1,4 @@
-group 'com.kat.bachaat'
+group 'com.f1soft.bachaat'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
@@ -9,7 +9,7 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-mainClassName = 'com.kat.bachaat.BachaatApplication'
+mainClassName = 'com.f1soft.bachaat.BachaatApplication'
 
 repositories {
     mavenCentral()

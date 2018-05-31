@@ -5,6 +5,7 @@ import com.f1soft.bachaat.dto.response.UserResponseDTO;
 import com.f1soft.bachaat.entity.Role;
 import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.exception.DataNotFoundException;
+import com.f1soft.bachaat.exception.UserAlreadyExistsException;
 import com.f1soft.bachaat.repository.RoleRepository;
 import com.f1soft.bachaat.repository.UserRepository;
 import com.f1soft.bachaat.service.impl.UserServiceImpl;
@@ -132,4 +133,12 @@ public class TestUserService {
         when(userRepository.findById(user.getId())).thenThrow(DataNotFoundException.class);
         userService.updateUser(userRequestDTO);
     }
+
+    @Test(expected = UserAlreadyExistsException.class)
+    public void Should_ThrowException_WhenSameMobileNumberIsPassed() {
+        logger.info("Inside Test User Add when same mobile number is passed");
+        when(userRepository.findByMobileNumber(user.getMobileNumber())).thenThrow(UserAlreadyExistsException.class);
+        userService.addUser(userRequestDTO);
+    }
+
 }
