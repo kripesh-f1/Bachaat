@@ -1,5 +1,6 @@
 package com.f1soft.bachaat.configuration;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,6 +73,11 @@ public class HibernateConfiguration {
         properties.setProperty("hibernate.dialect", environment.getProperty("hibernate.dialect"));
         properties.setProperty("hibernate.current_session_context_class", environment.getProperty("hibernate.current_session_context_class"));
         return properties;
+    }
+
+    @Bean
+    public ModelMapper getModelMapper(){
+        return new ModelMapper();
     }
 }
 

@@ -4,8 +4,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -17,23 +15,17 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-    @NotNull(message = "Please enter your first name!")
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "middle_name")
     private String middleName;
-    @NotNull(message = "Please enter your last name!")
     @Column(name = "last_name")
     private String lastName;
-    @NotNull(message = "Please enter your email address!")
     @Column(name = "email_address")
     private String emailAddress;
-    @NotNull(message = "Please enter your address!")
     @Column(name = "address")
     private String address;
-    @Size(min = 10, message = "Mobile number cannot be less than 10")
     @Column(name = "mobile_number", unique = true)
-    @NotNull(message = "Please enter your mobile number!")
     private String mobileNumber;
     @CreationTimestamp
     @Column(name = "created_date", updatable = false)
@@ -45,7 +37,6 @@ public class User
     private int activationCode;
     @Column(name = "active")
     private boolean active = false;
-    @NotNull(message = "Please enter your password!")
     @Column(name = "password")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)

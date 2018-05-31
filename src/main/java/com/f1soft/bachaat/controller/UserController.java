@@ -1,5 +1,7 @@
 package com.f1soft.bachaat.controller;
 
+import com.f1soft.bachaat.dto.request.UserRequestDTO;
+import com.f1soft.bachaat.dto.response.UserResponseDTO;
 import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.responseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.UserService;
@@ -34,26 +36,26 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<UserResponseDTO>> getUsers() {
         logger.info("Fetch getUsers method");
-        List<User> users = userService.getUsers();
+        List<UserResponseDTO> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping(UPDATE_PATH)
-    public ResponseEntity<ApiMessageResponse> updateUser(@RequestBody @Valid User user) {
+    public ResponseEntity<ApiMessageResponse> updateUser(@RequestBody @Valid UserRequestDTO userRequestDTO) {
         logger.info("Inside Update User Controller");
         ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
-        userService.updateUser(user);
+        userService.updateUser(userRequestDTO);
         apiMessageResponse.setMessage("User has been updated successfully.");
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ApiMessageResponse> addUser(@RequestBody @Valid User user) {
+    public ResponseEntity<ApiMessageResponse> addUser(@RequestBody @Valid UserRequestDTO userRequestDTO) {
         logger.info("Inside add User method of User Controller.");
         ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
-        userService.addUser(user);
+        userService.addUser(userRequestDTO);
         apiMessageResponse.setMessage("User has been added successfully.");
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
     }
