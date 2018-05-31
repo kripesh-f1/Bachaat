@@ -3,5 +3,5 @@
   menu_name       VARCHAR(50),
   link            VARCHAR(50),
   parent_id       INT,
-  menu_status     BOOLEAN DEFAULT TRUE
+  status          BOOLEAN DEFAULT TRUE
 );

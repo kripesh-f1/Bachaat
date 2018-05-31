@@ -10,15 +10,15 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
     private long id;
-    @NotNull(message = "Menu cannot be null.")
+    @NotNull(message = "Menu name cannot be null.")
     @Column(name = "menu_name")
     private String name;
     @Column(name = "parent_id")
     private long parentId;
     @NotNull(message = "Link cannot be null.")
     private String link;
-    @Column(name = "menu_status")
-    private boolean status = true;
+    @Column(name = "status")
+    private boolean enable = true;
 
     public Menu() {
     }
@@ -62,12 +62,12 @@ public class Menu {
         this.link = link;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isEnable() {
+        return enable;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
     @Override
@@ -77,7 +77,7 @@ public class Menu {
                 ", name='" + name + '\'' +
                 ", parentId=" + parentId +
                 ", link='" + link + '\'' +
-                ", status=" + status +
+                ", enable=" + enable +
                 '}';
     }
 }
