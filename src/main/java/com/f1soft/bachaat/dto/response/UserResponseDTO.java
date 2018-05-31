@@ -1,6 +1,7 @@
 package com.f1soft.bachaat.dto.response;
 
 import com.f1soft.bachaat.entity.Role;
+import com.f1soft.bachaat.entity.User;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,7 +19,8 @@ public class UserResponseDTO
     private int activationCode;
     private List<Role> roles;
 
-    public UserResponseDTO(String firstName, String middleName, String lastName, String emailAddress, String address, String mobileNumber, String password) {
+    public UserResponseDTO(String firstName, String middleName, String lastName, String emailAddress,
+                           String address, String mobileNumber, String password) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -29,6 +31,19 @@ public class UserResponseDTO
     }
 
     public UserResponseDTO(){
+
+    }
+
+    public UserResponseDTO(User user) {
+        this.firstName=user.getFirstName();
+        this.middleName=user.getMiddleName();
+        this.lastName=user.getLastName();
+        this.activationCode=user.getActivationCode();
+        this.address=user.getAddress();
+        this.emailAddress=user.getEmailAddress();
+        this.password=user.getPassword();
+        this.mobileNumber=user.getMobileNumber();
+        this.roles=user.getRoles();
 
     }
 

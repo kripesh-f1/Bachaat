@@ -19,8 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -45,7 +50,8 @@ public class UserServiceImpl implements UserService {
         logger.info("Inside Add User Service");
         User user = userRepository.findByMobileNumber(userRequestDTO.getMobileNumber());
         if (user != null) {
-            throw new UserAlreadyExistsException("User with " + user.getMobileNumber() + " mobile number already exist.");
+            throw new UserAlreadyExistsException
+                    (String.format("User with %s mobile number already exist.",user.getMobileNumber()));
         }
         User u=modelMapper.map(userRequestDTO,User.class);
         u.setActivationCode(activationCodeUtil.getActivationCode());
@@ -71,15 +77,12 @@ public class UserServiceImpl implements UserService {
     public List<UserResponseDTO> getUsers() {
 
         logger.info("Inside Get Users Service");
-        List<UserResponseDTO> userResponseDTOS=new ArrayList<>();
-        List<User> userList=userRepository.findAll();
+        List<User> userList= userRepository.findAll();
         if (userList.size()==0 || userList == null) {
             throw new DataNotFoundException("Cannot find users.");
         }
-        for(User user:userList){
-            UserResponseDTO userResponseDTO=modelMapper.map(user,UserResponseDTO.class);
-            userResponseDTOS.add(userResponseDTO);
-        }
+        List<UserResponseDTO> userResponseDTOS=userList.stream()
+                    .map(UserResponseDTO :: new).collect(Collectors.toList());
         return userResponseDTOS;
     }
 
