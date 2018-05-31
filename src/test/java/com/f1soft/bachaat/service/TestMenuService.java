@@ -23,13 +23,13 @@ public class TestMenuService {
 
     private static Logger logger = Logger.getLogger(TestMenuService.class.getName());
 
-    @Mock
-    private MenuRepository menuRepository;
-
     @InjectMocks
     MenuServiceImpl menuService;
 
-    private Menu menu;
+    @Mock
+    MenuRepository menuRepository;
+
+    Menu menu;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -43,8 +43,8 @@ public class TestMenuService {
     @Test
     public void Should_ReturnStatusOK_When_MenuAdded() {
         logger.info("Inside Test Menu Add Service To Add Menu Successfully");
+        when(menuRepository.save(menu)).thenReturn(menu);
         when(menuService.addMenu(menu)).thenReturn(menu);
         Assert.assertNotNull(menuService.addMenu(menu));
     }
-
 }

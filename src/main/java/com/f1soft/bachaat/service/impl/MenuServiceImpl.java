@@ -19,7 +19,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu addMenu(Menu menu) {
-        logger.info("Inside Add Menu Service");
+        logger.info("Inside Menu Service: getMenu()");
         return menuRepository.save(menu);
     }
 }
