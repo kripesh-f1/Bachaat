@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS user_role (
   FOREIGN KEY (role_id) REFERENCES tbl_roles (role_id)
 );
 
-/*   */
+/*TO CREATE TABLE TBL_MENU */
  CREATE TABLE IF NOT EXISTS tbl_menu (
   menu_id         INT PRIMARY KEY AUTO_INCREMENT,
   menu_name       VARCHAR(50),
