@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     @Override
     public List<UserResponseDTO> getUsers(Pageable pageable) {
         logger.info("Inside Get Users Service");
@@ -87,6 +86,9 @@ public class UserServiceImpl implements UserService {
         logger.info("Inside Update User Service");
         if (userRequestDTO.getId() == null) {
             throw new DataNotFoundException("User id can not be null");
+        }
+        if (!userRepository.findById(userRequestDTO.getId()).isPresent()) {
+            throw new DataNotFoundException("User with id " + userRequestDTO.getId() + " cannot be found");
         }
         User user=modelMapper.map(userRequestDTO,User.class);
         User u=userRepository.save(user);
