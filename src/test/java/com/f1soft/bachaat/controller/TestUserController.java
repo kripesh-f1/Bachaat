@@ -2,7 +2,6 @@ package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.dto.request.UserRequestDTO;
 import com.f1soft.bachaat.dto.response.UserResponseDTO;
-import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
@@ -32,7 +31,6 @@ import java.util.logging.Logger;
 
 import static com.f1soft.bachaat.utils.ApiConstant.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(MockitoJUnitRunner.class)
