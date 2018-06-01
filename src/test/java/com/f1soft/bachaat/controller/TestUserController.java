@@ -1,5 +1,7 @@
 package com.f1soft.bachaat.controller;
 
+import com.f1soft.bachaat.dto.request.UserRequestDTO;
+import com.f1soft.bachaat.dto.response.UserResponseDTO;
 import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +32,7 @@ import java.util.logging.Logger;
 
 import static com.f1soft.bachaat.utils.ApiConstant.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -46,28 +49,37 @@ public class TestUserController {
     @InjectMocks
     private UserController userController;
 
-    User user;
+    UserRequestDTO userRequestDTO;
+
+    UserResponseDTO userResponseDTO;
+
     Pageable pageable;
-    Page<User> pagedResponse;
+
+    Page<UserResponseDTO> pagedResponse;
 
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(userController)
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
-        user = new User(1l, "nitish", "Shrestha",
-                "nitishrestha8848@gmail.com", "dhapakhel",
-                "9849211041",
-                "ilovenepal12345");
-        pageable= PageRequest.of(0,1);
-        pagedResponse= new PageImpl<>(Arrays.asList(user));
+        userRequestDTO = new UserRequestDTO(1l, "admin", "admin",
+                "admin", "admin@admin.com",
+                "admin",
+                "1234567890", "admin");
+        userResponseDTO = new UserResponseDTO("admin", "admin",
+                "admin", "admin@admin.com", "admin", "1234567890", "admin");
+        pageable = PageRequest.of(0, 1);
+        pagedResponse = new PageImpl<>(Arrays.asList(userResponseDTO));
     }
+
+
+
 
     @Test
     public void Should_ReturnStatusOK() throws Exception {
         logger.info("Inside User Add should return status 200");
         ObjectMapper objectMapper = new ObjectMapper();
-        String jsonString = objectMapper.writeValueAsString(user);
-        given(userService.addUser(user)).willReturn(user);
+        String jsonString = objectMapper.writeValueAsString(userRequestDTO);
+         given(userService.addUser(userRequestDTO)).willReturn(userResponseDTO);
         RequestBuilder requestBuilder = post(API_VER + USER_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(jsonString).
                         contentType(MediaType.APPLICATION_JSON);
@@ -80,7 +92,7 @@ public class TestUserController {
     @Test
     public void Should_DeleteUserRecord() throws Exception {
         logger.info("Inside User Delete should return status 200");
-        String id = user.getId().toString();
+        String id = userRequestDTO.getId().toString();
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH + DELETE_PATH)
                 .param("id", id).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -161,11 +173,11 @@ public class TestUserController {
     }
 
         @Test
-    public void updateFood_thenReturnStatusOK() throws Exception {
-            logger.info("Inside Update User ");
+    public void updateUser_thenReturnStatusOK() throws Exception {
+        logger.info("Inside Update User ");
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(user);
-        given(userService.updateUser(user)).willReturn(user);
+        String jsonString = mapper.writeValueAsString(userRequestDTO);
+        given(userService.updateUser(userRequestDTO)).willReturn(userResponseDTO);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH + UPDATE_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(jsonString).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

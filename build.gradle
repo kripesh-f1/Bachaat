@@ -26,12 +26,13 @@ dependencies {
             "org.springframework:spring-orm:5.0.5.RELEASE",
             "org.hibernate:hibernate-core:5.2.7.Final",
             "org.springframework.data:spring-data-jpa:2.0.7.RELEASE",
-            "com.fasterxml.jackson.core:jackson-databind:2.9.4",
+            "com.fasterxml.jackson.core:jackson-databind:2.9.2",
             "org.apache.tomcat.embed:tomcat-embed-jasper:8.0.47",
             "mysql:mysql-connector-java:5.1.38",
             "org.slf4j:slf4j-simple:1.7.25",
             "javax.validation:validation-api:2.0.0.Final",
-            "org.hibernate.validator:hibernate-validator:6.0.2.Final"
+            "org.hibernate.validator:hibernate-validator:6.0.2.Final",
+            "org.modelmapper:modelmapper:0.7.5"
     )
     testCompile('junit:junit:4.12') {
         exclude group: 'org.hamcrest'
@@ -40,7 +41,5 @@ dependencies {
         exclude group: 'org.hamcrest'
     }
     testCompile 'org.hamcrest:hamcrest-core:1.3'
-
     testCompile 'org.springframework:spring-test:5.0.5.RELEASE'
-
 }
