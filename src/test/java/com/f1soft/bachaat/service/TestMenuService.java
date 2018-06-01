@@ -1,3 +1,4 @@
+/*
 package com.f1soft.bachaat.service;
 
 import com.f1soft.bachaat.entity.Menu;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import static org.mockito.Mockito.when;
@@ -47,4 +49,20 @@ public class TestMenuService {
         when(menuService.addMenu(menu)).thenReturn(menu);
         Assert.assertNotNull(menuService.addMenu(menu));
     }
+
+    @Test
+    public void Should_ReturnListOfMenu() {
+        logger.info("Inside Test Menu Get All to fetch all Users");
+        when(menuRepository.findAll()).thenReturn(Arrays.asList(menu));
+        Assert.assertNotNull(menuRepository.findAll());
+    }
+
+    @Test(expected = Exception.class)
+    public void Should_ThrowException_When_NoRecordsAreFound() {
+        logger.info("Inside Test Menu Get All when there is no record");
+        when(menuRepository.findAll()).thenReturn(Arrays.asList((Menu[]) null));
+        menuRepository.findAll();
+    }
+
 }
+*/

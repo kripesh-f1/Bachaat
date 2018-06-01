@@ -6,12 +6,10 @@ import com.f1soft.bachaat.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static com.f1soft.bachaat.utils.ApiConstant.*;
@@ -32,6 +30,12 @@ public class MenuController {
         menuService.addMenu(menu);
         apiMessageResponse.setMessage("Menu has been added successfully.");
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Menu>> getMenu() {
+        List<Menu> menuList = menuService.getMenu();
+        return new ResponseEntity<>(menuList, HttpStatus.OK);
     }
 
 }
