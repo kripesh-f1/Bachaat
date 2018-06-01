@@ -4,6 +4,7 @@ import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.responseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +35,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<User>> getUsers(Pageable pageable) {
         logger.info("Fetch getUsers method");
-        List<User> users = userService.getUsers();
+        List<User> users = userService.getUsers(pageable);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RunWith(MockitoJUnitRunner.class)
 public class TestMenuController {
 
-    private static Logger logger = Logger.getLogger(TestUserController.class.getName());
+    private static Logger logger = Logger.getLogger(TestMenuController.class.getName());
 
     private MockMvc mockMvc;
 

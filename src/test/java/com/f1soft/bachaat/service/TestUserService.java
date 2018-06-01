@@ -16,6 +16,10 @@ import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -42,7 +46,9 @@ public class TestUserService {
     @InjectMocks
     UserServiceImpl userService;
 
+    Pageable pageable;
     User user;
+    Page<User> pagedResponse;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -54,6 +60,8 @@ public class TestUserService {
         user = new User(1l, "admin", "admin",
                 "admin@admin.com", "admin",
                 "9813131", "ram");
+        pageable= PageRequest.of(0,1);
+        pagedResponse= new PageImpl<>(Arrays.asList(user));
     }
 
     @Test
@@ -84,15 +92,15 @@ public class TestUserService {
     @Test
     public void Should_ReturnListOfUser() {
         logger.info("Inside Test User Get All to fetch all Users");
-        when(userRepository.findAll()).thenReturn(Arrays.asList(user));
-        Assert.assertNotNull(userService.getUsers());
+        when(userRepository.findAll(pageable)).thenReturn(pagedResponse);
+        Assert.assertNotNull(userService.getUsers(pageable));
     }
 
     @Test(expected = DataNotFoundException.class)
     public void Should_ThrowException_When_NoRecordsAreFound() {
         logger.info("Inside Test User Get All when there is no record");
-        when(userService.getUsers()).thenReturn(Arrays.asList((User[]) null));
-        userService.getUsers();
+        when(userService.getUsers(pageable)).thenReturn(Arrays.asList((User[]) null));
+        userService.getUsers(pageable);
     }
 
     @Test

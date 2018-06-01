@@ -8,6 +8,8 @@ import com.f1soft.bachaat.repository.UserRepository;
 import com.f1soft.bachaat.service.UserService;
 import com.f1soft.bachaat.utils.ActivationCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,12 +43,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User> getUsers(Pageable pageable) {
         logger.info("Inside Get Users Service");
-        List<User> userList = userRepository.findAll();
-        if (userList.size() == 0 || userList == null) {
+        Page<User> userPage = userRepository.findAll(pageable);
+        List<User> userList=userPage.getContent();
+        if (userList == null||userList.size()==0) {
             throw new DataNotFoundException("Cannot find users.");
         }
+
         return userList;
     }
 
@@ -57,7 +61,7 @@ public class UserServiceImpl implements UserService {
             throw new DataNotFoundException("User id can not be null");
         }
         if (!userRepository.findById(user.getId()).isPresent()) {
-            throw new DataNotFoundException("User with id " + user.getId() + " cannot be found");
+            throw new DataNotFoundException(String.format("User with %d cannot be found",user.getId()));
         }
 
         return userRepository.save(user);

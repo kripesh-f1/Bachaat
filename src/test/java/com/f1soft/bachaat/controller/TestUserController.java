@@ -10,6 +10,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -27,6 +33,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(MockitoJUnitRunner.class)
+@EnableSpringDataWebSupport
 public class TestUserController {
 
     private static Logger logger = Logger.getLogger(TestUserController.class.getName());
@@ -40,14 +47,19 @@ public class TestUserController {
     private UserController userController;
 
     User user;
+    Pageable pageable;
+    Page<User> pagedResponse;
 
     @Before
     public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(userController)
+                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
         user = new User(1l, "nitish", "Shrestha",
                 "nitishrestha8848@gmail.com", "dhapakhel",
                 "9849211041",
                 "ilovenepal12345");
+        pageable= PageRequest.of(0,1);
+        pagedResponse= new PageImpl<>(Arrays.asList(user));
     }
 
     @Test
@@ -87,12 +99,14 @@ public class TestUserController {
     @Test
     public void Should_ReturnListOfUsers() throws Exception {
         logger.info("Inside Get User Controller To Fetch All User");
-        given(userService.getUsers()).willReturn(Arrays.asList(user));
+        String pageNumber=String.valueOf(pageable.getPageNumber());
+        String size=String.valueOf(pageable.getPageSize());
+        given(userService.getUsers(pageable)).willReturn(pagedResponse.getContent());
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + USER_PATH)
+                .param("page", pageNumber).param("size",size)
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
-        System.out.println(response);
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
