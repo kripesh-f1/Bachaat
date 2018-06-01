@@ -12,20 +12,14 @@ import com.f1soft.bachaat.utils.ActivationCodeUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -72,17 +66,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     @Override
-    public List<UserResponseDTO> getUsers() {
-
+    public List<UserResponseDTO> getUsers(Pageable pageable) {
         logger.info("Inside Get Users Service");
-        List<User> userList= userRepository.findAll();
-        if (userList.size()==0 || userList == null) {
+        Page<User> userPage = userRepository.findAll(pageable);
+        if (userPage == null) {
             throw new DataNotFoundException("Cannot find users.");
         }
+
+        List<User> userList=userPage.getContent();
         List<UserResponseDTO> userResponseDTOS=userList.stream()
-                    .map(UserResponseDTO :: new).collect(Collectors.toList());
+                .map(UserResponseDTO :: new).collect(Collectors.toList());
+
         return userResponseDTOS;
     }
 

@@ -3,8 +3,6 @@ package com.f1soft.bachaat.dto.response;
 import com.f1soft.bachaat.entity.Role;
 import com.f1soft.bachaat.entity.User;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 public class UserResponseDTO

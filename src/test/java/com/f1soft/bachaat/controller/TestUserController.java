@@ -2,7 +2,6 @@ package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.dto.request.UserRequestDTO;
 import com.f1soft.bachaat.dto.response.UserResponseDTO;
-import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
@@ -12,8 +11,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -28,10 +31,10 @@ import java.util.logging.Logger;
 
 import static com.f1soft.bachaat.utils.ApiConstant.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(MockitoJUnitRunner.class)
+@EnableSpringDataWebSupport
 public class TestUserController {
 
     private static Logger logger = Logger.getLogger(TestUserController.class.getName());
@@ -48,16 +51,26 @@ public class TestUserController {
 
     UserResponseDTO userResponseDTO;
 
+    Pageable pageable;
+
+    Page<UserResponseDTO> pagedResponse;
+
     @Before
     public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(userController)
+                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
         userRequestDTO = new UserRequestDTO(1l, "admin", "admin",
                 "admin", "admin@admin.com",
                 "admin",
-                "1234567890","admin");
-      userResponseDTO=new UserResponseDTO("admin","admin",
-              "admin","admin@admin.com","admin","1234567890","admin");
+                "1234567890", "admin");
+        userResponseDTO = new UserResponseDTO("admin", "admin",
+                "admin", "admin@admin.com", "admin", "1234567890", "admin");
+        pageable = PageRequest.of(0, 1);
+        pagedResponse = new PageImpl<>(Arrays.asList(userResponseDTO));
     }
+
+
+
 
     @Test
     public void Should_ReturnStatusOK() throws Exception {
@@ -96,12 +109,14 @@ public class TestUserController {
     @Test
     public void Should_ReturnListOfUsers() throws Exception {
         logger.info("Inside Get User Controller To Fetch All User");
-        given(userService.getUsers()).willReturn(Arrays.asList(userResponseDTO));
+        String pageNumber=String.valueOf(pageable.getPageNumber());
+        String size=String.valueOf(pageable.getPageSize());
+        given(userService.getUsers(pageable)).willReturn(pagedResponse.getContent());
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + USER_PATH)
+                .param("page", pageNumber).param("size",size)
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
-        System.out.println(response);
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
