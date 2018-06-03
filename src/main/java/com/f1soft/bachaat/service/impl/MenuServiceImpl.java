@@ -1,6 +1,8 @@
 package com.f1soft.bachaat.service.impl;
 
 import com.f1soft.bachaat.entity.Menu;
+import com.f1soft.bachaat.exception.MenuAlreadyExistsException;
+import com.f1soft.bachaat.exception.UserAlreadyExistsException;
 import com.f1soft.bachaat.repository.MenuRepository;
 import com.f1soft.bachaat.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,11 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu addMenu(Menu menu) {
         logger.info("Menu Service: addMenu(): START");
+        Menu currentMenu = menuRepository.findByNameAndLinkAndParentId(menu.getName(), menu.getLink(), menu.getParentId());
+        if (currentMenu != null) {
+            throw new UserAlreadyExistsException("Given menu already exists!");
+        }
         return menuRepository.save(menu);
     }
+
 }
