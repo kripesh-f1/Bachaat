@@ -1,16 +1,17 @@
 package com.f1soft.bachaat.service;
 
-import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.dto.request.UserRequestDTO;
+import com.f1soft.bachaat.dto.response.UserResponseDTO;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface UserService {
-    User addUser(User user);
+    UserResponseDTO addUser(UserRequestDTO userRequestDTO);
 
     void deleteUser(long id);
 
-    List<User> getUsers();
+    List<UserResponseDTO> getUsers(Pageable pageable);
 
-    User updateUser(User user);
-
+    UserResponseDTO updateUser(UserRequestDTO userRequestDTO);
 }

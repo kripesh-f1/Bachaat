@@ -1,6 +1,7 @@
 package com.f1soft.bachaat.controller;
 
-import com.f1soft.bachaat.entity.User;
+import com.f1soft.bachaat.dto.request.UserRequestDTO;
+import com.f1soft.bachaat.dto.response.UserResponseDTO;
 import com.f1soft.bachaat.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
@@ -10,6 +11,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -27,6 +34,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(MockitoJUnitRunner.class)
+@EnableSpringDataWebSupport
 public class TestUserController {
 
     private static Logger logger = Logger.getLogger(TestUserController.class.getName());
@@ -39,23 +47,37 @@ public class TestUserController {
     @InjectMocks
     private UserController userController;
 
-    User user;
+    UserRequestDTO userRequestDTO;
+
+    UserResponseDTO userResponseDTO;
+
+    Pageable pageable;
+
+    Page<UserResponseDTO> pagedResponse;
 
     @Before
     public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-        user = new User(1l, "nitish", "Shrestha",
-                "nitishrestha8848@gmail.com", "dhapakhel",
-                "9849211041",
-                "ilovenepal12345");
+        mockMvc = MockMvcBuilders.standaloneSetup(userController)
+                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()).build();
+        userRequestDTO = new UserRequestDTO(1l, "admin", "admin",
+                "admin", "admin@admin.com",
+                "admin",
+                "1234567890", "admin");
+        userResponseDTO = new UserResponseDTO("admin", "admin",
+                "admin", "admin@admin.com", "admin", "1234567890", "admin");
+        pageable = PageRequest.of(0, 1);
+        pagedResponse = new PageImpl<>(Arrays.asList(userResponseDTO));
     }
+
+
+
 
     @Test
     public void Should_ReturnStatusOK() throws Exception {
         logger.info("Inside User Add should return status 200");
         ObjectMapper objectMapper = new ObjectMapper();
-        String jsonString = objectMapper.writeValueAsString(user);
-        given(userService.addUser(user)).willReturn(user);
+        String jsonString = objectMapper.writeValueAsString(userRequestDTO);
+         given(userService.addUser(userRequestDTO)).willReturn(userResponseDTO);
         RequestBuilder requestBuilder = post(API_VER + USER_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(jsonString).
                         contentType(MediaType.APPLICATION_JSON);
@@ -68,7 +90,7 @@ public class TestUserController {
     @Test
     public void Should_DeleteUserRecord() throws Exception {
         logger.info("Inside User Delete should return status 200");
-        String id = user.getId().toString();
+        String id = userRequestDTO.getId().toString();
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH + DELETE_PATH)
                 .param("id", id).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -87,12 +109,14 @@ public class TestUserController {
     @Test
     public void Should_ReturnListOfUsers() throws Exception {
         logger.info("Inside Get User Controller To Fetch All User");
-        given(userService.getUsers()).willReturn(Arrays.asList(user));
+        String pageNumber=String.valueOf(pageable.getPageNumber());
+        String size=String.valueOf(pageable.getPageSize());
+        given(userService.getUsers(pageable)).willReturn(pagedResponse.getContent());
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + USER_PATH)
+                .param("page", pageNumber).param("size",size)
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
-        System.out.println(response);
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
@@ -147,11 +171,11 @@ public class TestUserController {
     }
 
         @Test
-    public void updateFood_thenReturnStatusOK() throws Exception {
-            logger.info("Inside Update User ");
+    public void updateUser_thenReturnStatusOK() throws Exception {
+        logger.info("Inside Update User ");
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(user);
-        given(userService.updateUser(user)).willReturn(user);
+        String jsonString = mapper.writeValueAsString(userRequestDTO);
+        given(userService.updateUser(userRequestDTO)).willReturn(userResponseDTO);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH + UPDATE_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(jsonString).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
