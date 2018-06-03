@@ -1,6 +1,7 @@
 package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.entity.Menu;
+import com.f1soft.bachaat.entity.MenuDTO;
 import com.f1soft.bachaat.responseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import static com.f1soft.bachaat.utils.ApiConstant.*;
@@ -33,9 +35,16 @@ public class MenuController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Menu>> getMenu() {
-        List<Menu> menuList = menuService.getMenu();
-        return new ResponseEntity<>(menuList, HttpStatus.OK);
+    public ResponseEntity<MenuDTO> getMenu() {
+        MenuDTO menuById = menuService.getMenuById(1);
+        return new ResponseEntity<>(menuById, HttpStatus.OK);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<MenuDTO>> getAllMenu() {
+        List<MenuDTO> menuDTOList = menuService.getAll();
+        return new ResponseEntity<>(menuDTOList, HttpStatus.OK);
+    }
+
 
 }
