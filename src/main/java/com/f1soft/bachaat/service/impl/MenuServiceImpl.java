@@ -2,6 +2,8 @@ package com.f1soft.bachaat.service.impl;
 
 import com.f1soft.bachaat.entity.Menu;
 import com.f1soft.bachaat.dto.response.MenuDTO;
+import com.f1soft.bachaat.exception.DataNotFoundException;
+import com.f1soft.bachaat.exception.UserAlreadyExistsException;
 import com.f1soft.bachaat.repository.MenuRepository;
 import com.f1soft.bachaat.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +25,28 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu addMenu(Menu menu) {
         logger.info("Menu Service: addMenu(): START");
+        Menu currentMenu = menuRepository.findByNameAndLinkAndParentId(menu.getName(), menu.getLink(), menu.getParentId());
+        if (currentMenu != null) {
+            throw new UserAlreadyExistsException("Given menu already exists!");
+        }
         return menuRepository.save(menu);
     }
 
     @Override
     public MenuDTO getMenuById(long id) {
-        logger.info(String.format("Menu Service: getMenuById(): with id: %d",id));
+        logger.info(String.format("Menu Service: getMenuById(): with id: %d", id));
         Menu menu = menuRepository.getById(id);
-        MenuDTO parentDto = new MenuDTO(menu);
-        createNode(parentDto);
-        return parentDto;
+        if(){
+
+        }
+        try {
+            Menu menu = menuRepository.getById(id);
+            MenuDTO parentDto = new MenuDTO(menu);
+            createNode(parentDto);
+            return parentDto;
+        } catch (DataNotFoundException e) {
+            throw new DataNotFoundException(String.format("Menu not found with id: %d", id));
+        }
     }
 
     private void createNode(MenuDTO parentMenuDTO) {
@@ -45,13 +59,17 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDTO> getByParentId(long id) {
-        logger.info(String.format("Menu Service: getByParentId(): with id: %d",id));
-        List<Menu> byParentId = menuRepository.getByParentId(id);
-        List<MenuDTO> menuDTOS = new ArrayList<>(byParentId.size());
-        for (Menu menu : byParentId) {
-            menuDTOS.add(new MenuDTO(menu));
+        logger.info(String.format("Menu Service: getByParentId(): with id: %d", id));
+        try {
+            List<Menu> byParentId = menuRepository.getByParentId(id);
+            List<MenuDTO> menuDTOS = new ArrayList<>(byParentId.size());
+            for (Menu menu : byParentId) {
+                menuDTOS.add(new MenuDTO(menu));
+            }
+            return menuDTOS;
+        } catch (DataNotFoundException e) {
+            throw new DataNotFoundException(String.format("Menu not found with id: %d", id));
         }
-        return menuDTOS;
     }
 
     @Override

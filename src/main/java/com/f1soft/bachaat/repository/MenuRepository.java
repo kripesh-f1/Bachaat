@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MenuRepository extends JpaRepository<Menu,Long> {
+public interface MenuRepository extends JpaRepository<Menu, Long> {
     Menu getById(long id);
+
     List<Menu> getByParentId(long id);
+
+    Menu findByNameAndLinkAndParentId(String name, String link, long parentId);
 }

@@ -1,7 +1,8 @@
-/*
+
 package com.f1soft.bachaat.service;
 
 import com.f1soft.bachaat.entity.Menu;
+import com.f1soft.bachaat.exception.MenuAlreadyExistsException;
 import com.f1soft.bachaat.repository.MenuRepository;
 import com.f1soft.bachaat.service.impl.MenuServiceImpl;
 import org.junit.Assert;
@@ -57,12 +58,11 @@ public class TestMenuService {
         Assert.assertNotNull(menuRepository.findAll());
     }
 
-    @Test(expected = Exception.class)
-    public void Should_ThrowException_When_NoRecordsAreFound() {
-        logger.info("Inside Test Menu Get All when there is no record");
-        when(menuRepository.findAll()).thenReturn(Arrays.asList((Menu[]) null));
-        menuRepository.findAll();
+    @Test(expected = MenuAlreadyExistsException.class)
+    public void Should_ThrowException_WhenMenuDataIsPassed() {
+        logger.info("Inside Test Menu Add when same menu data is passed");
+        when(menuRepository.findByNameAndLinkAndParentId(menu.getName(), menu.getLink(), menu.getParentId())).thenThrow(MenuAlreadyExistsException.class);
+        menuService.addMenu(menu);
     }
 
 }
-*/
