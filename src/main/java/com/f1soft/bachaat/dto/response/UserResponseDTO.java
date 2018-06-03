@@ -18,9 +18,8 @@ public class UserResponseDTO
     private int activationCode;
     private List<Role> roles;
 
-    public UserResponseDTO(Long id,String firstName, String middleName, String lastName, String emailAddress,
+    public UserResponseDTO(String firstName, String middleName, String lastName, String emailAddress,
                            String address, String mobileNumber, String password) {
-        this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
