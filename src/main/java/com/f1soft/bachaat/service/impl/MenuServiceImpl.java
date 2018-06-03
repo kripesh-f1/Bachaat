@@ -1,8 +1,7 @@
 package com.f1soft.bachaat.service.impl;
 
 import com.f1soft.bachaat.entity.Menu;
-import com.f1soft.bachaat.entity.MenuDTO;
-import com.f1soft.bachaat.exception.DataNotFoundException;
+import com.f1soft.bachaat.dto.response.MenuDTO;
 import com.f1soft.bachaat.repository.MenuRepository;
 import com.f1soft.bachaat.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 @Service
@@ -26,27 +23,30 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu addMenu(Menu menu) {
         logger.info("Menu Service: addMenu(): START");
+        logger.info(String.format("Menu Service: addMenu(): %d",menu));
         return menuRepository.save(menu);
     }
 
     @Override
     public MenuDTO getMenuById(long id) {
-        Menu menuById = menuRepository.getById(id);
-        MenuDTO parentDto = new MenuDTO(menuById);
+        logger.info(String.format("Menu Service: getMenuById(): with id: %d",id));
+        Menu menu = menuRepository.getById(id);
+        MenuDTO parentDto = new MenuDTO(menu);
         createNode(parentDto);
         return parentDto;
     }
 
-    private void createNode(MenuDTO parent) {
-        List<MenuDTO> child = getByParentId(parent.getId());
-        for (MenuDTO c : child) {
-            parent.addChild(c);
-            createNode(c);
+    private void createNode(MenuDTO parentMenuDTO) {
+        List<MenuDTO> childList = getByParentId(parentMenuDTO.getId());
+        for (MenuDTO child : childList) {
+            parentMenuDTO.addChild(child);
+            createNode(child);
         }
     }
 
     @Override
     public List<MenuDTO> getByParentId(long id) {
+        logger.info(String.format("Menu Service: getByParentId(): with id: %d",id));
         List<Menu> byParentId = menuRepository.getByParentId(id);
         List<MenuDTO> menuDTOS = new ArrayList<>(byParentId.size());
         for (Menu menu : byParentId) {
