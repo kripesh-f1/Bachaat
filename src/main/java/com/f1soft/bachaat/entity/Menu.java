@@ -80,4 +80,24 @@ public class Menu {
                 ", enable=" + enable +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Menu menu = (Menu) o;
+
+        if (parentId != menu.parentId) return false;
+        if (name != null ? !name.equals(menu.name) : menu.name != null) return false;
+        return link != null ? link.equals(menu.link) : menu.link == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (int) (parentId ^ (parentId >>> 32));
+        result = 31 * result + (link != null ? link.hashCode() : 0);
+        return result;
+    }
 }
