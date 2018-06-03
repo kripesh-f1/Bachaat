@@ -51,7 +51,7 @@ public class TestMenuService {
 
     @Test(expected = MenuAlreadyExistsException.class)
     public void Should_ThrowException_WhenMenuDataIsDuplicate() {
-        logger.info("Inside Test Menu Add when same menu data is passed");
+        logger.info("Inside Test Menu Add when same menu data is duplicate");
         when(menuRepository.findByNameAndLinkAndParentId(menu.getName(), menu.getLink(), menu.getParentId())).thenThrow(MenuAlreadyExistsException.class);
         menuService.addMenu(menu);
     }
