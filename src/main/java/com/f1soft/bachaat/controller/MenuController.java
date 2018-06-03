@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import static com.f1soft.bachaat.utils.ApiConstant.*;
 
 @RestController
-@RequestMapping(API_VER + MENU_PATH)
+@RequestMapping(API_VER + MENUS_PATH)
 public class MenuController {
 
     private static Logger logger = Logger.getLogger(MenuController.class.getName());
@@ -34,15 +34,17 @@ public class MenuController {
     }
 
     @GetMapping
-    public ResponseEntity<MenuDTO> getMenu() {
-        MenuDTO menuById = menuService.getMenuById(1);
-        return new ResponseEntity<>(menuById, HttpStatus.OK);
-    }
-
-   @GetMapping("/all")
-    public ResponseEntity<List<MenuDTO>> getAllMenu() {
+    public ResponseEntity<List<MenuDTO>> getMenu() {
+        logger.info("Menu Controller: getMenu(): START");
         List<MenuDTO> menuDTOList = menuService.getAll();
         return new ResponseEntity<>(menuDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(MENU_PATH)
+    public ResponseEntity<MenuDTO> getMenuById(@RequestParam long id) {
+        logger.info(String.format("Menu Controller: getMenuById(): with id: %d",id));
+        MenuDTO menuById = menuService.getMenuById(id);
+        return new ResponseEntity<>(menuById, HttpStatus.OK);
     }
 
 }

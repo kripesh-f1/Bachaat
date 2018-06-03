@@ -20,8 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.logging.Logger;
 
-import static com.f1soft.bachaat.utils.ApiConstant.API_VER;
-import static com.f1soft.bachaat.utils.ApiConstant.MENU_PATH;
+import static com.f1soft.bachaat.utils.ApiConstant.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -52,7 +51,7 @@ public class TestMenuController {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = objectMapper.writeValueAsString(menu);
         given(menuService.addMenu(menu)).willReturn(menu);
-        RequestBuilder requestBuilder = post(API_VER + MENU_PATH)
+        RequestBuilder requestBuilder = post(API_VER + MENUS_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(jsonString).
                         contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -65,7 +64,7 @@ public class TestMenuController {
     public void Should_FailToAddMenu_When_NameIsMissing() throws Exception {
         logger.info("Inside Add Menu ");
         String menuWithNoName = "{\"parentId\":2,\"link\":\"/home\"}";
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + MENU_PATH)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + MENUS_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(menuWithNoName).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(result.getResponse().getStatus(), 400);
@@ -75,7 +74,7 @@ public class TestMenuController {
     public void Should_FailToAddMenu_When_LinkIsMissing() throws Exception {
         logger.info("Inside Add Menu ");
         String menuWithNoName = "{\"name\":\"home\",\"parentId\":2}";
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + MENU_PATH)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + MENUS_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(menuWithNoName).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(result.getResponse().getStatus(), 400);

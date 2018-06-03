@@ -23,7 +23,6 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu addMenu(Menu menu) {
         logger.info("Menu Service: addMenu(): START");
-        logger.info(String.format("Menu Service: addMenu(): %d",menu));
         return menuRepository.save(menu);
     }
 
