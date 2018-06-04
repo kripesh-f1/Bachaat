@@ -1,16 +1,16 @@
 package com.f1soft.bachaat.service;
 
 import com.f1soft.bachaat.entity.Menu;
-import com.f1soft.bachaat.dto.response.MenuDTO;
+import com.f1soft.bachaat.dto.response.MenuResponseDTO;
 
 import java.util.List;
 
 public interface MenuService {
     Menu addMenu(Menu menu);
 
-    MenuDTO getMenuById(long id);
+    MenuResponseDTO getMenuById(long id);
 
-    List<MenuDTO> getByParentId(long id);
+    List<MenuResponseDTO> getMenuByParentId(long id);
 
-    List<MenuDTO> getAll();
+    List<MenuResponseDTO> getAll();
 }

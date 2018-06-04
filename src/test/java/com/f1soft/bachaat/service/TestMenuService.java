@@ -2,6 +2,7 @@
 package com.f1soft.bachaat.service;
 
 import com.f1soft.bachaat.entity.Menu;
+import com.f1soft.bachaat.exception.DataNotFoundException;
 import com.f1soft.bachaat.exception.MenuAlreadyExistsException;
 import com.f1soft.bachaat.repository.MenuRepository;
 import com.f1soft.bachaat.service.impl.MenuServiceImpl;
@@ -64,5 +65,20 @@ public class TestMenuService {
         when(menuRepository.findByNameAndLinkAndParentId(menu.getName(), menu.getLink(), menu.getParentId())).thenThrow(MenuAlreadyExistsException.class);
         menuService.addMenu(menu);
     }
+
+    @Test(expected = DataNotFoundException.class)
+    public void Should_ThrowException_WhenNonExistingIdIsPassed() {
+        logger.info("Inside Test Menu Get when invalid argument is passed");
+        when(menuRepository.getById(menu.getId())).thenThrow(DataNotFoundException.class);
+        menuService.getMenuById(menu.getId());
+    }
+
+    @Test(expected = DataNotFoundException.class)
+    public void Should_ThrowException_WhenNonExistingParentIdIsPassed() {
+        logger.info("Inside Test Menu Get when invalid argument is passed");
+        when(menuRepository.getByParentId(menu.getParentId())).thenThrow(DataNotFoundException.class);
+        menuService.getMenuById(menu.getId());
+    }
+
 
 }

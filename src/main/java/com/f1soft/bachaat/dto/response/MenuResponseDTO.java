@@ -5,24 +5,20 @@ import com.f1soft.bachaat.entity.Menu;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuDTO {
+public class MenuResponseDTO {
     private long id;
     private String name;
     private String link;
     private long parentId;
     private boolean enable;
-    private List<MenuDTO> children = new ArrayList<>();
+    private List<MenuResponseDTO> children = new ArrayList<>();
 
-    public MenuDTO(Menu menu) {
+    public MenuResponseDTO(Menu menu) {
         this.name = menu.getName();
         this.link = menu.getLink();
         this.id = menu.getId();
         this.parentId = menu.getParentId();
         this.enable = menu.isEnable();
-    }
-
-    public void addChild(MenuDTO menuDTO) {
-        children.add(menuDTO);
     }
 
     public long getId() {
@@ -65,11 +61,11 @@ public class MenuDTO {
         this.enable = enable;
     }
 
-    public List<MenuDTO> getChildren() {
+    public List<MenuResponseDTO> getChildren() {
         return children;
     }
 
-    public void setChildren(List<MenuDTO> children) {
+    public void setChildren(List<MenuResponseDTO> children) {
         this.children = children;
     }
 }

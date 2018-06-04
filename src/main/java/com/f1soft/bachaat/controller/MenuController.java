@@ -1,7 +1,7 @@
 package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.entity.Menu;
-import com.f1soft.bachaat.dto.response.MenuDTO;
+import com.f1soft.bachaat.dto.response.MenuResponseDTO;
 import com.f1soft.bachaat.responseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +34,16 @@ public class MenuController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MenuDTO>> getMenu() {
+    public ResponseEntity<List<MenuResponseDTO>> getMenu() {
         logger.info("Menu Controller: getMenu(): START");
-        List<MenuDTO> menuDTOList = menuService.getAll();
-        return new ResponseEntity<>(menuDTOList, HttpStatus.OK);
+        List<MenuResponseDTO> menuResponseDTOList = menuService.getAll();
+        return new ResponseEntity<>(menuResponseDTOList, HttpStatus.OK);
     }
 
     @GetMapping(MENU_PATH)
-    public ResponseEntity<MenuDTO> getMenuById(@RequestParam long id) {
+    public ResponseEntity<MenuResponseDTO> getMenuById(@RequestParam long id) {
         logger.info(String.format("Menu Controller: getMenuById(): with id: %d",id));
-        MenuDTO menuById = menuService.getMenuById(id);
+        MenuResponseDTO menuById = menuService.getMenuById(id);
         return new ResponseEntity<>(menuById, HttpStatus.OK);
     }
-
 }
