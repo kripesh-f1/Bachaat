@@ -84,13 +84,14 @@ public class TestMenuController {
 
     @Test(expected = IllegalArgumentException.class)
     public void Should_ThrowException_When_ThereIsNoSuchId() throws Exception {
-        logger.info("Inside Get Menu When Invalid Argument Is Passed");
+        logger.info("Inside Get Menu When Invalid/Non Existing Id Is Passed");
         MockMvcRequestBuilders.post(API_VER + MENUS_PATH + MENU_PATH)
                 .param("id", (String[]) null).contentType(MediaType.APPLICATION_JSON);
     }
 
     @Test
     public void getMenuDTOBydId_thenReturnStatusOK() throws Exception {
+        logger.info("Inside Get Menu To Fetch Menu successfully");
         String param = String.valueOf(menu.getId());
         given(menuService.getMenuById(menu.getId())).willReturn(new MenuResponseDTO(menu));
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + MENUS_PATH + MENU_PATH)

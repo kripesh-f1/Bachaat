@@ -68,6 +68,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuResponseDTO> getAll() {
+        logger.info(String.format("Menu Service: getAll():"));
         List<MenuResponseDTO> menus = getMenuByParentId(0);
         for (int i = 0; i < menus.size(); i++) {
             createNode(menus.get(i));
