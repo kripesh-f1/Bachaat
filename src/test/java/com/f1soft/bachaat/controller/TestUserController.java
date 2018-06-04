@@ -63,22 +63,19 @@ public class TestUserController {
                 "admin", "admin@admin.com",
                 "admin",
                 "1234567890", "admin");
-        userResponseDTO = new UserResponseDTO("admin", "admin",
+        userResponseDTO = new UserResponseDTO(1l, "admin", "admin",
                 "admin", "admin@admin.com", "admin", "1234567890", "admin");
         pageable = PageRequest.of(0, 1);
         pagedResponse = new PageImpl<>(Arrays.asList(userResponseDTO));
     }
-
-
-
 
     @Test
     public void Should_ReturnStatusOK() throws Exception {
         logger.info("Inside User Add should return status 200");
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = objectMapper.writeValueAsString(userRequestDTO);
-         given(userService.addUser(userRequestDTO)).willReturn(userResponseDTO);
-        RequestBuilder requestBuilder = post(API_VER + USER_PATH)
+        given(userService.addUser(userRequestDTO)).willReturn(userResponseDTO);
+        RequestBuilder requestBuilder = post(API_VER + USERS_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(jsonString).
                         contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -91,7 +88,7 @@ public class TestUserController {
     public void Should_DeleteUserRecord() throws Exception {
         logger.info("Inside User Delete should return status 200");
         String id = userRequestDTO.getId().toString();
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH + DELETE_PATH)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USERS_PATH + DELETE_PATH)
                 .param("id", id).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -102,18 +99,18 @@ public class TestUserController {
     @Test(expected = IllegalArgumentException.class)
     public void Should_ThrowException_When_ThereisNoSuchId() throws Exception {
         logger.info("Inside User Delete When Invalid Argument Is Passed");
-        MockMvcRequestBuilders.post(API_VER + USER_PATH + DELETE_PATH)
+        MockMvcRequestBuilders.post(API_VER + USERS_PATH + DELETE_PATH)
                 .param("id", (String[]) null).contentType(MediaType.APPLICATION_JSON);
     }
 
     @Test
     public void Should_ReturnListOfUsers() throws Exception {
         logger.info("Inside Get User Controller To Fetch All User");
-        String pageNumber=String.valueOf(pageable.getPageNumber());
-        String size=String.valueOf(pageable.getPageSize());
+        String pageNumber = String.valueOf(pageable.getPageNumber());
+        String size = String.valueOf(pageable.getPageSize());
         given(userService.getUsers(pageable)).willReturn(pagedResponse.getContent());
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + USER_PATH)
-                .param("page", pageNumber).param("size",size)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + USERS_PATH)
+                .param("page", pageNumber).param("size", size)
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -124,7 +121,7 @@ public class TestUserController {
     public void Should_FailToAddUser_When_FirstNameIsMissing() throws Exception {
         logger.info("Inside Add User ");
         String userWithNoFirstName = "{\"lastName\":\"Khanal\",\"mobileNumber\":\"94999545989\",\"emailAddress\":\"aasis@gmail.com\",\"address\":\"jhapa\",\"password\":\"password\"}";
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USERS_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(result.getResponse().getStatus(), 400);
@@ -134,7 +131,7 @@ public class TestUserController {
     public void Should_FailToAddUser_When_LastNameIsMissing() throws Exception {
         logger.info("Inside Add User ");
         String userWithNoFirstName = "{\"firstName\":\"Aashis\",\"mobileNumber\":\"94999545989\",\"emailAddress\":\"aasis@gmail.com\",\"address\":\"jhapa\",\"password\":\"password\"}";
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USERS_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(result.getResponse().getStatus(), 400);
@@ -144,7 +141,7 @@ public class TestUserController {
     public void Should_FailToAddUser_When_AddressIsMissing() throws Exception {
         logger.info("Inside Add User ");
         String userWithNoFirstName = "{\"firstName\":\"Aashis\",\"mobileNumber\":\"94999545989\",\"emailAddress\":\"aasis@gmail.com\",\"password\":\"password\"}";
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USERS_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(result.getResponse().getStatus(), 400);
@@ -154,7 +151,7 @@ public class TestUserController {
     public void Should_FailToAddUser_When_EmailAddressIsMissing() throws Exception {
         logger.info("Inside Add User ");
         String userWithNoFirstName = "{\"firstName\":\"Aashis\",\"mobileNumber\":\"94999545989\",\"address\":\"jhapa\",\"password\":\"password\"}";
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USERS_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(result.getResponse().getStatus(), 400);
@@ -164,19 +161,19 @@ public class TestUserController {
     public void Should_FailToAddUser_When_PasswordIsMissing() throws Exception {
         logger.info("Inside Add User ");
         String userWithNoFirstName = "{\"firstName\":\"Aashis\",\"mobileNumber\":\"94999545989\",\"emailAddress\":\"aasis@gmail.com\",\"address\":\"jhapa\"}";
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USERS_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(userWithNoFirstName).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Assert.assertEquals(result.getResponse().getStatus(), 400);
     }
 
-        @Test
+    @Test
     public void updateUser_thenReturnStatusOK() throws Exception {
         logger.info("Inside Update User ");
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(userRequestDTO);
         given(userService.updateUser(userRequestDTO)).willReturn(userResponseDTO);
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USER_PATH + UPDATE_PATH)
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(API_VER + USERS_PATH + UPDATE_PATH)
                 .accept(MediaType.APPLICATION_JSON).content(jsonString).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();

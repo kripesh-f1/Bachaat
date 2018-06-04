@@ -1,6 +1,8 @@
+
 package com.f1soft.bachaat.service;
 
 import com.f1soft.bachaat.entity.Menu;
+import com.f1soft.bachaat.exception.DataNotFoundException;
 import com.f1soft.bachaat.exception.MenuAlreadyExistsException;
 import com.f1soft.bachaat.repository.MenuRepository;
 import com.f1soft.bachaat.service.impl.MenuServiceImpl;
@@ -15,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import static org.mockito.Mockito.when;
@@ -49,10 +52,33 @@ public class TestMenuService {
         Assert.assertNotNull(menuService.addMenu(menu));
     }
 
+    @Test
+    public void Should_ReturnListOfMenu() {
+        logger.info("Inside Test Menu Get All to fetch all Users");
+        when(menuRepository.findAll()).thenReturn(Arrays.asList(menu));
+        Assert.assertNotNull(menuRepository.findAll());
+    }
+
     @Test(expected = MenuAlreadyExistsException.class)
     public void Should_ThrowException_WhenMenuDataIsDuplicate() {
         logger.info("Inside Test Menu Add when same menu data is duplicate");
         when(menuRepository.findByNameAndLinkAndParentId(menu.getName(), menu.getLink(), menu.getParentId())).thenThrow(MenuAlreadyExistsException.class);
         menuService.addMenu(menu);
     }
+
+    @Test(expected = DataNotFoundException.class)
+    public void Should_ThrowException_WhenNonExistingIdIsPassed() {
+        logger.info("Inside Test Menu Get when invalid argument is passed");
+        when(menuRepository.getById(menu.getId())).thenThrow(DataNotFoundException.class);
+        menuService.getMenuById(menu.getId());
+    }
+
+    @Test(expected = DataNotFoundException.class)
+    public void Should_ThrowException_WhenNonExistingParentIdIsPassed() {
+        logger.info("Inside Test Menu Get when invalid argument is passed");
+        when(menuRepository.getByParentId(menu.getParentId())).thenThrow(DataNotFoundException.class);
+        menuService.getMenuById(menu.getId());
+    }
+
+
 }
