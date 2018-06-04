@@ -3,7 +3,7 @@ package com.f1soft.bachaat.service.impl;
 import com.f1soft.bachaat.dto.response.MenuResponseDTO;
 import com.f1soft.bachaat.entity.Menu;
 import com.f1soft.bachaat.exception.DataNotFoundException;
-import com.f1soft.bachaat.exception.UserAlreadyExistsException;
+import com.f1soft.bachaat.exception.MenuAlreadyExistsException;
 import com.f1soft.bachaat.repository.MenuRepository;
 import com.f1soft.bachaat.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class MenuServiceImpl implements MenuService {
         logger.info("Menu Service: addMenu(): START");
         Menu currentMenu = menuRepository.findByNameAndLinkAndParentId(menu.getName(), menu.getLink(), menu.getParentId());
         if (currentMenu != null) {
-            throw new UserAlreadyExistsException("Given menu already exists!");
+            throw new MenuAlreadyExistsException("Given menu already exists!");
         }
         return menuRepository.save(menu);
     }
@@ -57,12 +57,10 @@ public class MenuServiceImpl implements MenuService {
         logger.info(String.format("Menu Service: getByParentId(): with id: %d", id));
         List<Menu> menus = menuRepository.getByParentId(id);
         if (menus == null) {
-            throw new DataNotFoundException(String.format("Menu with id: %d not found", id));
+            throw new DataNotFoundException(String.format("Menu with parent id: %d not found", id));
         }
-        List<MenuResponseDTO> menuResponseDTOS = new ArrayList<>(menus.size());
-        for (Menu menu : menus) {
-            menuResponseDTOS.add(new MenuResponseDTO(menu));
-        }
+        List<MenuResponseDTO> menuResponseDTOS = new ArrayList<>();
+        menus.forEach(menu -> menuResponseDTOS.add(new MenuResponseDTO(menu)));
         return menuResponseDTOS;
     }
 
@@ -70,9 +68,7 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuResponseDTO> getAll() {
         logger.info(String.format("Menu Service: getAll():"));
         List<MenuResponseDTO> menus = getMenuByParentId(0);
-        for (int i = 0; i < menus.size(); i++) {
-            createNode(menus.get(i));
-        }
+        menus.forEach(menu -> createNode(menu));
         return menus;
     }
 }

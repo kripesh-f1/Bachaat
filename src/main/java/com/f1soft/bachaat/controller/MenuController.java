@@ -34,7 +34,7 @@ public class MenuController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MenuResponseDTO>> getMenu() {
+    public ResponseEntity<List<MenuResponseDTO>> getMenus() {
         logger.info("Menu Controller: getMenu(): START");
         List<MenuResponseDTO> menuResponseDTOList = menuService.getAll();
         return new ResponseEntity<>(menuResponseDTOList, HttpStatus.OK);
@@ -43,7 +43,7 @@ public class MenuController {
     @GetMapping(MENU_PATH)
     public ResponseEntity<MenuResponseDTO> getMenuById(@RequestParam long id) {
         logger.info(String.format("Menu Controller: getMenuById(): with id: %d",id));
-        MenuResponseDTO menuById = menuService.getMenuById(id);
-        return new ResponseEntity<>(menuById, HttpStatus.OK);
+        MenuResponseDTO menu = menuService.getMenuById(id);
+        return new ResponseEntity<>(menu, HttpStatus.OK);
     }
 }
