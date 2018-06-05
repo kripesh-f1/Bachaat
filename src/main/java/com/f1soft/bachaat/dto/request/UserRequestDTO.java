@@ -4,31 +4,32 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+import static com.f1soft.bachaat.utils.DTOMessageConstant.*;
 
-public class UserRequestDTO implements Serializable
-{
+
+public class UserRequestDTO implements Serializable {
     private Long id;
-    @NotNull(message = "Please enter your first name!")
+    @NotNull(message = FIRST_NAME_REQUIRED)
     private String firstName;
     private String middleName;
-    @NotNull(message = "Please enter your last name!")
+    @NotNull(message = LAST_NAME_REQUIRED)
     private String lastName;
-    @NotNull(message = "Please enter your email address!")
+    @NotNull(message = EMAIL_ADDRESS_REQUIRED)
     private String emailAddress;
-    @NotNull(message = "Please enter your address!")
+    @NotNull(message = ADDRESS_REQUIRED)
     private String address;
-    @Size(min = 10, message = "Mobile number cannot be less than 10")
-    @NotNull(message = "Please enter your mobile number!")
+    @Size(min = 10, message = MOBILE_NUMBER_INVALID)
+    @NotNull(message = MOBILE_NUMBER_REQUIRED)
     private String mobileNumber;
-    @NotNull(message = "Please enter your password!")
+    @NotNull(message = PASSWORD_REQUIRED)
     private String password;
 
 
-    public UserRequestDTO( Long id,  String firstName, String middleName,
-                           String lastName,
-                           String emailAddress,
-                           String address,
-                            String mobileNumber,
+    public UserRequestDTO(Long id, String firstName, String middleName,
+                          String lastName,
+                          String emailAddress,
+                          String address,
+                          String mobileNumber,
                           String password) {
         this.id = id;
         this.firstName = firstName;
@@ -40,7 +41,7 @@ public class UserRequestDTO implements Serializable
         this.password = password;
     }
 
-    public UserRequestDTO(){
+    public UserRequestDTO() {
 
     }
 
