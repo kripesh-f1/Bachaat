@@ -3,7 +3,7 @@ package com.f1soft.bachaat.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import static com.f1soft.bachaat.utils.DTOMessageConstant.*;
+import static com.f1soft.bachaat.utils.MessageConstant.*;
 
 @Entity
 @Table(name = "tbl_menu")

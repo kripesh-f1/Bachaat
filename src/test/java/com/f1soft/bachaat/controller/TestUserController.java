@@ -63,7 +63,7 @@ public class TestUserController {
                 "admin", "admin@admin.com",
                 "admin",
                 "1234567890", "admin");
-        userResponseDTO = new UserResponseDTO(1l, "admin", "admin",
+        userResponseDTO = new UserResponseDTO( "admin", "admin",
                 "admin", "admin@admin.com", "admin", "1234567890", "admin");
         pageable = PageRequest.of(0, 1);
         pagedResponse = new PageImpl<>(Arrays.asList(userResponseDTO));
@@ -93,7 +93,7 @@ public class TestUserController {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         String outputInJson = response.getContentAsString();
-        Assert.assertTrue(outputInJson.contains("User with id 1 has been deleted"));
+        Assert.assertTrue(outputInJson.contains("User with id: 1 has been deleted successfully."));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -178,6 +178,6 @@ public class TestUserController {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         String outputInJson = response.getContentAsString();
-        Assert.assertTrue(outputInJson.contains("User has been updated successfully."));
+        Assert.assertTrue(outputInJson.contains("User with id: 1 has been updated successfully."));
     }
 }

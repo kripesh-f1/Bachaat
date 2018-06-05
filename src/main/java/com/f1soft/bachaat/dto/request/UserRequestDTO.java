@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-import static com.f1soft.bachaat.utils.DTOMessageConstant.*;
+import static com.f1soft.bachaat.utils.MessageConstant.*;
 
 
 public class UserRequestDTO implements Serializable {

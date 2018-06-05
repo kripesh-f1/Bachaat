@@ -73,7 +73,7 @@ public class TestUserService {
                 "admin", "admin@admin.com",
                 "admin",
                 "1234567890", "admin");
-        userResponseDTO = new UserResponseDTO(1l, "admin", "admin",
+        userResponseDTO = new UserResponseDTO( "admin", "admin",
                 "admin", "admin@admin.com", "admin", "1234567890", "admin");
         pageable = PageRequest.of(0, 1);
         pagedResponse = new PageImpl<>(Arrays.asList(user));
