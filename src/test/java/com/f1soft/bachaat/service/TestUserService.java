@@ -107,6 +107,7 @@ public class TestUserService {
         logger.info("Inside Test User Get All to fetch all Users");
         when(validatorUtil.getPageable(pageable,"firstName","DESC")).thenReturn(pageable);
         when(userRepository.findAll(pageable)).thenReturn(pagedResponse);
+        when(userRepository.count()).thenReturn(8L);
         Assert.assertNotNull(userService.getUsers(pageable,"firstName","DESC"));
     }
     @Test

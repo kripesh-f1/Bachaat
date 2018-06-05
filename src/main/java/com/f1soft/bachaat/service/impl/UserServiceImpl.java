@@ -2,6 +2,7 @@ package com.f1soft.bachaat.service.impl;
 
 import com.f1soft.bachaat.dto.request.UserRequestDTO;
 import com.f1soft.bachaat.dto.response.UserResponseDTO;
+import com.f1soft.bachaat.dto.response.UserResponseDTOList;
 import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.exception.DataNotFoundException;
 import com.f1soft.bachaat.exception.UserAlreadyExistsException;
@@ -42,7 +43,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ActivationCodeUtil activationCodeUtil;
 
-    Pageable newPageable;
 
     private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
@@ -73,17 +73,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDTO> getUsers(Pageable pageable,String sort,String order) {
+    public UserResponseDTOList getUsers(Pageable pageable,String sort,String order) {
+        UserResponseDTOList userResponseDTOList=new UserResponseDTOList();
         logger.info("User Service: getUsers(): START");
         Pageable newPageable= validatorUtil.getPageable(pageable,sort,order);
         Page<User> userPage = userRepository.findAll(newPageable);
         if (userPage == null) {
             throw new DataNotFoundException("Cannot find users.");
         }
-        List<User> userList=userPage.getContent();
-        List<UserResponseDTO> userResponseDTOS=userList.stream()
+        long count=userRepository.count();
+        List<UserResponseDTO> userResponseDTOS=userPage.getContent().stream()
                 .map(UserResponseDTO :: new).collect(Collectors.toList());
-        return userResponseDTOS;
+        userResponseDTOList.setUserResponseDTOList(userResponseDTOS);
+        userResponseDTOList.setRecords(count);
+        return userResponseDTOList;
     }
 
     @Override
