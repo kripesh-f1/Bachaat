@@ -25,7 +25,7 @@ public class ValidatorUtil {
 
     public  Pageable getPageable(Pageable pageable,String sort,String order){
         if(!getStringList(sort)==true){
-            throw new ValidationException("Name of the field is incorrect.");
+            throw new ValidationException(String.format("Unknown field : %s",sort));
         }
         else if(!sort.isEmpty()&&order.isEmpty()){
             pageable=PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(), Sort.by(sort));

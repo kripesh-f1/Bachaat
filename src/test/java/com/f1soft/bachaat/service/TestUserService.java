@@ -24,6 +24,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.modelmapper.ModelMapper;
+
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -76,17 +77,17 @@ public class TestUserService {
                 "admin", "admin@admin.com",
                 "admin",
                 "1234567890", "admin");
-        userResponseDTO = new UserResponseDTO("admin", "admin",
+        userResponseDTO = new UserResponseDTO( "admin", "admin",
                 "admin", "admin@admin.com", "admin", "1234567890", "admin");
-        pageable= PageRequest.of(0,1);
-        pagedResponse= new PageImpl<>(Arrays.asList(user));
+        pageable = PageRequest.of(0, 1);
+        pagedResponse = new PageImpl<>(Arrays.asList(user));
     }
 
     @Test
     public void Should_ReturnNotNull() {
         logger.info("Inside Test User Add Service To Add User Successfully");
         when(userRepository.findByMobileNumber(userRequestDTO.getMobileNumber())).thenReturn(null);
-        when(modelMapper.map(userRequestDTO,User.class)).thenReturn(user);
+        when(modelMapper.map(userRequestDTO, User.class)).thenReturn(user);
         when(activationCodeUtil.getActivationCode()).thenReturn(anyInt());
         when(roleRepository.findByName("USER")).thenReturn(new Role());
         when(userRepository.save(user)).thenReturn(user);
@@ -112,9 +113,9 @@ public class TestUserService {
     public void Should_ReturnUpdatedUser() {
         logger.info("Inside Test User Update to update user successfully");
         when(userRepository.findById(userRequestDTO.getId())).thenReturn(Optional.of(user));
-        when(modelMapper.map(userRequestDTO,User.class)).thenReturn(user);
+        when(modelMapper.map(userRequestDTO, User.class)).thenReturn(user);
         when(userRepository.save(user)).thenReturn(user);
-        when(modelMapper.map(user,UserResponseDTO.class)).thenReturn(userResponseDTO);
+        when(modelMapper.map(user, UserResponseDTO.class)).thenReturn(userResponseDTO);
         Assert.assertEquals(userService.updateUser(userRequestDTO), userResponseDTO);
     }
 

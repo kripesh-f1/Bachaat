@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import static com.f1soft.bachaat.utils.ApiConstant.*;
 
 @RestController
-@RequestMapping(API_VER + USER_PATH)
+@RequestMapping(API_VER + USERS_PATH)
 public class UserController {
 
     private static Logger logger = Logger.getLogger(UserController.class.getName());
