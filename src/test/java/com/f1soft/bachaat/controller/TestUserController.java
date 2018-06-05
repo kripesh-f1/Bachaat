@@ -111,10 +111,10 @@ public class TestUserController {
         logger.info("Inside Get User Controller To Fetch All User");
         String pageNumber=String.valueOf(pageable.getPageNumber());
         String size=String.valueOf(pageable.getPageSize());
-        given(userService.getUsers(pageable)).willReturn(pagedResponse.getContent());
+        given(userService.getUsers(pageable,"firstName","DESC")).willReturn(pagedResponse.getContent());
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + USER_PATH)
-                .param("page", pageNumber).param("size",size)
-                .contentType(MediaType.APPLICATION_JSON);
+                .param("page", pageNumber).param("size",size).param("sort","firstName")
+                .param("order","DESC").contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());

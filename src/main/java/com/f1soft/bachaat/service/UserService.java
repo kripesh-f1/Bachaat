@@ -11,7 +11,7 @@ public interface UserService {
 
     void deleteUser(long id);
 
-    List<UserResponseDTO> getUsers(Pageable pageable);
+    List<UserResponseDTO> getUsers(Pageable pageable,String sort,String order);
 
     UserResponseDTO updateUser(UserRequestDTO userRequestDTO);
 }

@@ -1,9 +1,6 @@
 package com.f1soft.bachaat.controller;
 
-import com.f1soft.bachaat.exception.DataNotFoundException;
-import com.f1soft.bachaat.exception.MenuAlreadyExistsException;
-import com.f1soft.bachaat.exception.MobileNumberInvalidException;
-import com.f1soft.bachaat.exception.UserAlreadyExistsException;
+import com.f1soft.bachaat.exception.*;
 import com.f1soft.bachaat.responseMessage.DataBindingErrorMessage;
 import com.f1soft.bachaat.responseMessage.ExceptionResponse;
 import org.springframework.http.HttpStatus;
@@ -76,5 +73,14 @@ public class ExceptionHandlerController {
         error.setCallerUrl(request.getRequestURI());
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ExceptionResponse> fieldValidationException(final ValidationException ex, final HttpServletRequest request) {
+        ExceptionResponse error = new ExceptionResponse();
+        error.setMessage(ex.getMessage());
+        error.setCallerUrl(request.getRequestURI());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 
 }

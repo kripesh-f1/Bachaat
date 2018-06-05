@@ -9,6 +9,7 @@ import com.f1soft.bachaat.repository.RoleRepository;
 import com.f1soft.bachaat.repository.UserRepository;
 import com.f1soft.bachaat.service.UserService;
 import com.f1soft.bachaat.utils.ActivationCodeUtil;
+import com.f1soft.bachaat.utils.ValidatorUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,10 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+
+    @Autowired
+    private ValidatorUtil validatorUtil;
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -36,6 +41,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ActivationCodeUtil activationCodeUtil;
+
+    Pageable newPageable;
 
     private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
@@ -55,7 +62,6 @@ public class UserServiceImpl implements UserService {
         return userResponseDTO;
     }
 
-
     @Override
     public void deleteUser(long id) {
         logger.info("Inside Delete User Service");
@@ -67,17 +73,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDTO> getUsers(Pageable pageable) {
-        logger.info("Inside Get Users Service");
-        Page<User> userPage = userRepository.findAll(pageable);
+    public List<UserResponseDTO> getUsers(Pageable pageable,String sort,String order) {
+        logger.info("User Service: getUsers(): START");
+        Pageable newPageable= validatorUtil.getPageable(pageable,sort,order);
+        Page<User> userPage = userRepository.findAll(newPageable);
         if (userPage == null) {
             throw new DataNotFoundException("Cannot find users.");
         }
-
         List<User> userList=userPage.getContent();
         List<UserResponseDTO> userResponseDTOS=userList.stream()
                 .map(UserResponseDTO :: new).collect(Collectors.toList());
-
         return userResponseDTOS;
     }
 

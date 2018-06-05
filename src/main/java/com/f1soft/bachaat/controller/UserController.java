@@ -35,9 +35,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getUsers(Pageable pageable) {
+    public ResponseEntity<List<UserResponseDTO>> getUsers(Pageable pageable,@RequestParam String sort,@RequestParam String order) {
         logger.info("Fetch getUsers method");
-        List<UserResponseDTO> users = userService.getUsers(pageable);
+        List<UserResponseDTO> users = userService.getUsers(pageable, sort, order);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
