@@ -73,7 +73,7 @@ public class TestUserService {
                 "admin", "admin@admin.com",
                 "admin",
                 "1234567890", "admin");
-        userResponseDTO = new UserResponseDTO(1l, "admin", "admin",
+        userResponseDTO = new UserResponseDTO( "admin", "admin",
                 "admin", "admin@admin.com", "admin", "1234567890", "admin");
         pageable = PageRequest.of(0, 1);
         pagedResponse = new PageImpl<>(Arrays.asList(user));
@@ -115,6 +115,14 @@ public class TestUserService {
         Assert.assertEquals(userService.updateUser(userRequestDTO), userResponseDTO);
     }
 
+    @Test
+    public void Should_ReturnUserResponseDto() {
+        logger.info("This is successful testing for getUser().");
+        when(userRepository.findById(userRequestDTO.getId())).thenReturn(Optional.of(user));
+        when(modelMapper.map(user,UserResponseDTO.class)).thenReturn(userResponseDTO);
+        Assert.assertEquals(userService.getUser(userRequestDTO.getId()), userResponseDTO);
+    }
+
     @Test(expected = DataNotFoundException.class)
     public void Should_ThrowException_When_NoRecordsAreFound() {
         logger.info("Inside Test User Get All when there is no record");
@@ -150,4 +158,12 @@ public class TestUserService {
         userRequestDTO.setId(null);
         userService.updateUser(userRequestDTO);
     }
+
+    @Test(expected = DataNotFoundException.class)
+    public void Should_ThrowException_WhenThereIsNoSuchUser() {
+        logger.info("This is failure testing for getUser() when there is no user of such id.");
+        when(userRepository.findById(userRequestDTO.getId())).thenReturn(null);
+       userService.getUser(userRequestDTO.getId());
+    }
+
 }

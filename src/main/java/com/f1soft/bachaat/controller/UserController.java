@@ -58,4 +58,11 @@ public class UserController {
         apiMessageResponse.setMessage("User has been added successfully.");
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
     }
+
+    @GetMapping(GET_USER_PATH)
+    public ResponseEntity<UserResponseDTO> addUser(@PathVariable long id) {
+        logger.info("Inside add User method of User Controller.");
+        UserResponseDTO userResponseDTO=userService.getUser(id);
+        return new ResponseEntity<>(userResponseDTO, HttpStatus.OK);
+    }
 }

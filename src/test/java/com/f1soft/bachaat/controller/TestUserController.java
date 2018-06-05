@@ -63,7 +63,7 @@ public class TestUserController {
                 "admin", "admin@admin.com",
                 "admin",
                 "1234567890", "admin");
-        userResponseDTO = new UserResponseDTO(1l, "admin", "admin",
+        userResponseDTO = new UserResponseDTO( "admin", "admin",
                 "admin", "admin@admin.com", "admin", "1234567890", "admin");
         pageable = PageRequest.of(0, 1);
         pagedResponse = new PageImpl<>(Arrays.asList(userResponseDTO));
@@ -179,5 +179,20 @@ public class TestUserController {
         MockHttpServletResponse response = result.getResponse();
         String outputInJson = response.getContentAsString();
         Assert.assertTrue(outputInJson.contains("User has been updated successfully."));
+    }
+
+    @Test
+    public void Should_ReturnUserResponseDto() throws Exception {
+        logger.info("Inside Get User ");
+        ObjectMapper mapper = new ObjectMapper();
+        given(userService.getUser(userRequestDTO.getId())).willReturn(userResponseDTO);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + USERS_PATH + "/1")
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String outputInJson = response.getContentAsString();
+        UserResponseDTO userResponseDTO=mapper.readValue(outputInJson,UserResponseDTO.class);
+        Assert.assertNotNull(userResponseDTO);
+
     }
 }

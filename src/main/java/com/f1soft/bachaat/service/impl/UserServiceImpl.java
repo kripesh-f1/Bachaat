@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -73,11 +74,9 @@ public class UserServiceImpl implements UserService {
         if (userPage == null) {
             throw new DataNotFoundException("Cannot find users.");
         }
-
         List<User> userList=userPage.getContent();
         List<UserResponseDTO> userResponseDTOS=userList.stream()
                 .map(UserResponseDTO :: new).collect(Collectors.toList());
-
         return userResponseDTOS;
     }
 
@@ -93,6 +92,17 @@ public class UserServiceImpl implements UserService {
         User user=modelMapper.map(userRequestDTO,User.class);
         User u=userRepository.save(user);
         UserResponseDTO userResponseDTO=modelMapper.map(u,UserResponseDTO.class);
+        return userResponseDTO;
+    }
+
+    @Override
+    public UserResponseDTO getUser(long id) {
+        logger.info("User Service: getUser(): START");
+        Optional<User> user=userRepository.findById(id);
+        if(user==null){
+            throw new DataNotFoundException("Cannot find user.");
+        }
+        UserResponseDTO userResponseDTO=modelMapper.map(user.get(),UserResponseDTO.class);
         return userResponseDTO;
     }
 }
