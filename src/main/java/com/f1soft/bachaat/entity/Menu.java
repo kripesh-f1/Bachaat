@@ -3,6 +3,8 @@ package com.f1soft.bachaat.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import static com.f1soft.bachaat.utils.MessageConstant.*;
+
 @Entity
 @Table(name = "tbl_menu")
 public class Menu {
@@ -10,12 +12,12 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
     private long id;
-    @NotNull(message = "Menu name cannot be null.")
+    @NotNull(message = MENU_NAME_REQUIRED)
     @Column(name = "menu_name")
     private String name;
     @Column(name = "parent_id")
     private long parentId;
-    @NotNull(message = "Link cannot be null.")
+    @NotNull(message = LINK_REQUIRED)
     private String link;
     @Column(name = "status")
     private boolean enable = true;
