@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static com.f1soft.bachaat.utils.ApiConstant.*;
+import static com.f1soft.bachaat.utils.MessageConstant.*;
 
 @RestController
 @RequestMapping(API_VER + USERS_PATH)
@@ -28,10 +29,10 @@ public class UserController {
 
     @PostMapping(DELETE_PATH)
     public ResponseEntity<ApiMessageResponse> deleteUser(@RequestParam long id) {
-        logger.info("Deleting user with id: " + id);
+        logger.info(String.format("User Controller: deleteUser(): with id: %d", id));
         userService.deleteUser(id);
         ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
-        apiMessageResponse.setMessage("User with id " + id + " has been deleted.");
+        apiMessageResponse.setMessage(String.format(USER_DELETE_MESSAGE, id));
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
     }
 
@@ -44,19 +45,19 @@ public class UserController {
 
     @PostMapping(UPDATE_PATH)
     public ResponseEntity<ApiMessageResponse> updateUser(@RequestBody @Valid UserRequestDTO userRequestDTO) {
-        logger.info("Inside Update User Controller");
+        logger.info("User Controller: updateUser(): START");
         ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
         userService.updateUser(userRequestDTO);
-        apiMessageResponse.setMessage("User has been updated successfully.");
+        apiMessageResponse.setMessage(String.format(USER_UPDATE_MESSAGE, userRequestDTO.getId()));
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<ApiMessageResponse> addUser(@RequestBody @Valid UserRequestDTO userRequestDTO) {
-        logger.info("Inside add User method of User Controller.");
+        logger.info("User Controller: addUser(): START");
         ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
         userService.addUser(userRequestDTO);
-        apiMessageResponse.setMessage("User has been added successfully.");
+        apiMessageResponse.setMessage(USER_ADD_MESSAGE);
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
     }
 

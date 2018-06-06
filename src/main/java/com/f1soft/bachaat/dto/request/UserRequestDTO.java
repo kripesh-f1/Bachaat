@@ -4,31 +4,51 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+import static com.f1soft.bachaat.utils.MessageConstant.*;
 
-public class UserRequestDTO implements Serializable
-{
+
+public class UserRequestDTO implements Serializable {
+
     private Long id;
-    @NotNull(message = "Please enter your first name!")
+
+    @NotNull(message = FIRST_NAME_REQUIRED)
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String firstName;
+
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String middleName;
-    @NotNull(message = "Please enter your last name!")
+
+    @NotNull(message = LAST_NAME_REQUIRED)
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String lastName;
-    @NotNull(message = "Please enter your email address!")
+
+    @NotNull(message = EMAIL_ADDRESS_REQUIRED)
+    @Size(min = 5, message = EMAIL_LENGTH_MIN)
     private String emailAddress;
-    @NotNull(message = "Please enter your address!")
+
+    @NotNull(message = ADDRESS_REQUIRED)
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String address;
-    @Size(min = 10, message = "Mobile number cannot be less than 10")
-    @NotNull(message = "Please enter your mobile number!")
+
+    @Size(min = 10, message = MOBILE_NUMBER_INVALID)
+    @NotNull(message = MOBILE_NUMBER_REQUIRED)
     private String mobileNumber;
-    @NotNull(message = "Please enter your password!")
+
+    @NotNull(message = PASSWORD_REQUIRED)
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String password;
 
 
-    public UserRequestDTO( Long id,  String firstName, String middleName,
-                           String lastName,
-                           String emailAddress,
-                           String address,
-                            String mobileNumber,
+    public UserRequestDTO(Long id, String firstName, String middleName,
+                          String lastName,
+                          String emailAddress,
+                          String address,
+                          String mobileNumber,
                           String password) {
         this.id = id;
         this.firstName = firstName;
@@ -40,7 +60,7 @@ public class UserRequestDTO implements Serializable
         this.password = password;
     }
 
-    public UserRequestDTO(){
+    public UserRequestDTO() {
 
     }
 

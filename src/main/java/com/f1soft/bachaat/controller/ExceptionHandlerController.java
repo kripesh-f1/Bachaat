@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.f1soft.bachaat.utils.MessageConstant.DATA_BINDING_ERROR_MESSAGE;
+
 @ControllerAdvice
 public class ExceptionHandlerController {
 
@@ -43,7 +45,7 @@ public class ExceptionHandlerController {
 
     public DataBindingErrorMessage dataBindingErrorMessagesConverter(BindingResult bindingResult) {
         DataBindingErrorMessage dataBindingErrorMessage = new DataBindingErrorMessage();
-        dataBindingErrorMessage.setErrorMessage("Invalid request parameter");
+        dataBindingErrorMessage.setErrorMessage(DATA_BINDING_ERROR_MESSAGE);
         dataBindingErrorMessage.setCode(HttpStatus.BAD_REQUEST.value());
         List<DataBindingErrorMessage.Error> errors = new ArrayList<>();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();

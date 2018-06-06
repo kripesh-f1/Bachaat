@@ -24,6 +24,8 @@ import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static com.f1soft.bachaat.utils.MessageConstant.*;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -49,27 +51,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO addUser(UserRequestDTO userRequestDTO) {
-        logger.info("Inside Add User Service");
+        logger.info("User Service: addUser(): START");
         User user = userRepository.findByMobileNumber(userRequestDTO.getMobileNumber());
         if (user != null) {
-            throw new UserAlreadyExistsException
-                    (String.format("User with %s mobile number already exist.",user.getMobileNumber()));
+            throw new UserAlreadyExistsException(String.format(USER_ALREADY_EXISTS, user.getMobileNumber()));
         }
-        User u=modelMapper.map(userRequestDTO,User.class);
+        User u = modelMapper.map(userRequestDTO, User.class);
         u.setActivationCode(activationCodeUtil.getActivationCode());
         u.setRoles(Arrays.asList(roleRepository.findByName("USER")));
-        User returnedUser=userRepository.save(u);
-        UserResponseDTO userResponseDTO=modelMapper.map(returnedUser,UserResponseDTO.class);
+        User returnedUser = userRepository.save(u);
+        UserResponseDTO userResponseDTO = modelMapper.map(returnedUser, UserResponseDTO.class);
         return userResponseDTO;
     }
 
     @Override
     public void deleteUser(long id) {
-        logger.info("Inside Delete User Service");
+        logger.info(String.format("User Service: deleteUser(): with id: %d", id));
         try {
             userRepository.deleteById(id);
         } catch (Exception e) {
-            throw new DataNotFoundException("User not found with id: " + id);
+            throw new DataNotFoundException(String.format(USER_ID_NOT_FOUND, id));
         }
     }
 
@@ -80,7 +81,7 @@ public class UserServiceImpl implements UserService {
         Pageable newPageable= validatorUtil.getPageable(pageable,sort,order);
         Page<User> userPage = userRepository.findAll(newPageable);
         if (userPage == null) {
-            throw new DataNotFoundException("Cannot find users.");
+            throw new DataNotFoundException(CANNOT_FIND_USERS);
         }
         long count=userRepository.count();
         List<UserResponseDTO> userResponseDTOS=userPage.getContent().stream()
@@ -93,16 +94,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO updateUser(UserRequestDTO userRequestDTO) {
-        logger.info("Inside Update User Service");
+        logger.info("User Service: updateUser(): START");
         if (userRequestDTO.getId() == null) {
-            throw new DataNotFoundException("User id can not be null");
+            throw new DataNotFoundException(USER_ID_CANNOT_BE_NULL);
         }
         if (!userRepository.findById(userRequestDTO.getId()).isPresent()) {
-            throw new DataNotFoundException("User with id " + userRequestDTO.getId() + " cannot be found");
+            throw new DataNotFoundException(String.format(USER_ID_NOT_FOUND, userRequestDTO.getId()));
         }
-        User user=modelMapper.map(userRequestDTO,User.class);
-        User u=userRepository.save(user);
-        UserResponseDTO userResponseDTO=modelMapper.map(u,UserResponseDTO.class);
+        User user = modelMapper.map(userRequestDTO, User.class);
+        User u = userRepository.save(user);
+        UserResponseDTO userResponseDTO = modelMapper.map(u, UserResponseDTO.class);
         return userResponseDTO;
     }
 

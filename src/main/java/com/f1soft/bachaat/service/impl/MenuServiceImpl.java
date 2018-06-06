@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static com.f1soft.bachaat.utils.MessageConstant.*;
+
 @Service
 @Transactional
 public class MenuServiceImpl implements MenuService {
@@ -27,7 +29,7 @@ public class MenuServiceImpl implements MenuService {
         logger.info("Menu Service: addMenu(): START");
         Menu currentMenu = menuRepository.findByNameAndLinkAndParentId(menu.getName(), menu.getLink(), menu.getParentId());
         if (currentMenu != null) {
-            throw new MenuAlreadyExistsException("Given menu already exists!");
+            throw new MenuAlreadyExistsException(MENU_ALREADY_EXISTS);
         }
         return menuRepository.save(menu);
     }
@@ -37,7 +39,7 @@ public class MenuServiceImpl implements MenuService {
         logger.info(String.format("Menu Service: getMenuById(): with id: %d", id));
         Menu menu = menuRepository.getById(id);
         if (menu == null) {
-            throw new DataNotFoundException(String.format("Menu with id: %d not found", id));
+            throw new DataNotFoundException(String.format(MENU_NOT_FOUND, id));
         }
         MenuResponseDTO parentMenuResponseDTO = new MenuResponseDTO(menu);
         createNode(parentMenuResponseDTO);
@@ -57,7 +59,7 @@ public class MenuServiceImpl implements MenuService {
         logger.info(String.format("Menu Service: getByParentId(): with id: %d", id));
         List<Menu> menus = menuRepository.getByParentId(id);
         if (menus == null) {
-            throw new DataNotFoundException(String.format("Menu with parent id: %d not found", id));
+            throw new DataNotFoundException(String.format(MENU_PARENT_ID_NOT_FOUND, id));
         }
         List<MenuResponseDTO> menuResponseDTOS = new ArrayList<>();
         menus.forEach(menu -> menuResponseDTOS.add(new MenuResponseDTO(menu)));
@@ -66,7 +68,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuResponseDTO> getAll() {
-        logger.info(String.format("Menu Service: getAll():"));
+        logger.info(String.format("Menu Service: getAll(): START"));
         List<MenuResponseDTO> menus = getMenuByParentId(0);
         menus.forEach(menu -> createNode(menu));
         return menus;

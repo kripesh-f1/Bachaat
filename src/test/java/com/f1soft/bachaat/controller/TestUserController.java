@@ -97,7 +97,7 @@ public class TestUserController {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         String outputInJson = response.getContentAsString();
-        Assert.assertTrue(outputInJson.contains("User with id 1 has been deleted"));
+        Assert.assertTrue(outputInJson.contains("User with id: 1 has been deleted successfully."));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -183,7 +183,7 @@ public class TestUserController {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         String outputInJson = response.getContentAsString();
-        Assert.assertTrue(outputInJson.contains("User has been updated successfully."));
+        Assert.assertTrue(outputInJson.contains("User with id: 1 has been updated successfully."));
     }
 
     @Test

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static com.f1soft.bachaat.utils.ApiConstant.*;
+import static com.f1soft.bachaat.utils.MessageConstant.MENU_ADD_MESSAGE;
 
 @RestController
 @RequestMapping(API_VER + MENUS_PATH)
@@ -29,7 +30,7 @@ public class MenuController {
         logger.info("Menu Controller: addMenu(): START");
         ApiMessageResponse apiMessageResponse = new ApiMessageResponse();
         menuService.addMenu(menu);
-        apiMessageResponse.setMessage("Menu has been added successfully.");
+        apiMessageResponse.setMessage(MENU_ADD_MESSAGE);
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
     }
 
@@ -42,7 +43,7 @@ public class MenuController {
 
     @GetMapping(MENU_PATH)
     public ResponseEntity<MenuResponseDTO> getMenuById(@RequestParam long id) {
-        logger.info(String.format("Menu Controller: getMenuById(): with id: %d",id));
+        logger.info(String.format("Menu Controller: getMenuById(): with id: %d", id));
         MenuResponseDTO menu = menuService.getMenuById(id);
         return new ResponseEntity<>(menu, HttpStatus.OK);
     }
