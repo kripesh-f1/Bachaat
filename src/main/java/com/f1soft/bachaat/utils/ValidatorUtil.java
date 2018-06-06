@@ -14,17 +14,16 @@ public class ValidatorUtil {
 
 
     public static boolean getStringList(String sort) {
-        String[] property = {"","desc","firstName", "middleName", "lastName", "emailAddress", "mobileNumber", "password"};
+        String[] property = {"","firstName", "middleName", "lastName", "emailAddress", "mobileNumber", "password"};
         List<String> strings = Arrays.asList(property);
         if (strings.contains(sort)) {
             return true;
         }
-
         return false;
     }
 
     public  Pageable getPageable(Pageable pageable,String sort,String order){
-        if(!getStringList(sort)==true){
+        if(!getStringList(sort)){
             throw new ValidationException(String.format("Unknown field : %s",sort));
         }
         else if(!sort.isEmpty()&&order.isEmpty()){

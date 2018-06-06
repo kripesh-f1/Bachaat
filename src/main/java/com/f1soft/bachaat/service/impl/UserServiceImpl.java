@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         List<UserResponseDTO> userResponseDTOS=userPage.getContent().stream()
                 .map(UserResponseDTO :: new).collect(Collectors.toList());
         userResponseDTOList.setUserResponseDTOList(userResponseDTOS);
-        userResponseDTOList.setRecords(count);
+        userResponseDTOList.setCount(count);
         return userResponseDTOList;
     }
 

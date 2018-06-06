@@ -4,23 +4,23 @@ import java.util.List;
 
 public class UserResponseDTOList {
 
-    private long records;
+    private long count;
     private List<UserResponseDTO> userResponseDTOList;
 
-    public UserResponseDTOList(long records, List<UserResponseDTO> userResponseDTOList) {
-        this.records = records;
+    public UserResponseDTOList(long count, List<UserResponseDTO> userResponseDTOList) {
+        this.count = count;
         this.userResponseDTOList = userResponseDTOList;
     }
 
     public UserResponseDTOList() {
     }
 
-    public long getRecords() {
-        return records;
+    public long getCount() {
+        return count;
     }
 
-    public void setRecords(long records) {
-        this.records = records;
+    public void setCount(long count) {
+        this.count = count;
     }
 
     public List<UserResponseDTO> getUserResponseDTOList() {
