@@ -12,7 +12,6 @@ import java.util.List;
 @Component
 public class ValidatorUtil {
 
-
     public static boolean getStringList(String sort) {
         String[] property = {"","firstName", "middleName", "lastName", "emailAddress", "mobileNumber", "password"};
         List<String> strings = Arrays.asList(property);
