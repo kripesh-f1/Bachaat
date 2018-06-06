@@ -2,6 +2,7 @@ package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.dto.request.UserRequestDTO;
 import com.f1soft.bachaat.dto.response.UserResponseDTO;
+import com.f1soft.bachaat.dto.response.UserResponseDTOList;
 import com.f1soft.bachaat.responseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getUsers(Pageable pageable) {
+    public ResponseEntity<UserResponseDTOList> getUsers(Pageable pageable, @RequestParam String sort, @RequestParam String order) {
         logger.info("Fetch getUsers method");
-        List<UserResponseDTO> users = userService.getUsers(pageable);
+        UserResponseDTOList users = userService.getUsers(pageable, sort, order);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -60,8 +61,8 @@ public class UserController {
     }
 
     @GetMapping(GET_USER_PATH)
-    public ResponseEntity<UserResponseDTO> addUser(@PathVariable long id) {
-        logger.info("Inside add User method of User Controller.");
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable long id) {
+        logger.info("Inside get User method of User Controller.");
         UserResponseDTO userResponseDTO=userService.getUser(id);
         return new ResponseEntity<>(userResponseDTO, HttpStatus.OK);
     }
