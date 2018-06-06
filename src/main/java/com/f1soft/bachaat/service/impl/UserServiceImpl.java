@@ -2,6 +2,7 @@ package com.f1soft.bachaat.service.impl;
 
 import com.f1soft.bachaat.dto.request.UserRequestDTO;
 import com.f1soft.bachaat.dto.response.UserResponseDTO;
+import com.f1soft.bachaat.dto.response.UserResponseDTOList;
 import com.f1soft.bachaat.entity.User;
 import com.f1soft.bachaat.exception.DataNotFoundException;
 import com.f1soft.bachaat.exception.UserAlreadyExistsException;
@@ -9,6 +10,7 @@ import com.f1soft.bachaat.repository.RoleRepository;
 import com.f1soft.bachaat.repository.UserRepository;
 import com.f1soft.bachaat.service.UserService;
 import com.f1soft.bachaat.utils.ActivationCodeUtil;
+import com.f1soft.bachaat.utils.ValidatorUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,10 @@ import static com.f1soft.bachaat.utils.MessageConstant.*;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+
+    @Autowired
+    private ValidatorUtil validatorUtil;
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -38,6 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ActivationCodeUtil activationCodeUtil;
+
 
     private static Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
@@ -67,18 +74,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDTO> getUsers(Pageable pageable) {
+    public UserResponseDTOList getUsers(Pageable pageable,String sort,String order) {
+        UserResponseDTOList userResponseDTOList=new UserResponseDTOList();
         logger.info("User Service: getUsers(): START");
-        Page<User> userPage = userRepository.findAll(pageable);
+        Pageable newPageable= validatorUtil.getPageable(pageable,sort,order);
+        Page<User> userPage = userRepository.findAll(newPageable);
         if (userPage == null) {
             throw new DataNotFoundException(CANNOT_FIND_USERS);
         }
-
-        List<User> userList = userPage.getContent();
-        List<UserResponseDTO> userResponseDTOS = userList.stream()
-                .map(UserResponseDTO::new).collect(Collectors.toList());
-
-        return userResponseDTOS;
+        long count=userRepository.count();
+        List<UserResponseDTO> userResponseDTOS=userPage.getContent().stream()
+                .map(UserResponseDTO :: new).collect(Collectors.toList());
+        userResponseDTOList.setUserResponseDTOList(userResponseDTOS);
+        userResponseDTOList.setCount(count);
+        return userResponseDTOList;
     }
 
     @Override
