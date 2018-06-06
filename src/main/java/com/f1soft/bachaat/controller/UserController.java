@@ -2,6 +2,7 @@ package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.dto.request.UserRequestDTO;
 import com.f1soft.bachaat.dto.response.UserResponseDTO;
+import com.f1soft.bachaat.dto.response.UserResponseDTOList;
 import com.f1soft.bachaat.responseMessage.ApiMessageResponse;
 import com.f1soft.bachaat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getUsers(Pageable pageable) {
+    public ResponseEntity<UserResponseDTOList> getUsers(Pageable pageable, @RequestParam String sort, @RequestParam String order) {
         logger.info("Fetch getUsers method");
-        List<UserResponseDTO> users = userService.getUsers(pageable);
+        UserResponseDTOList users = userService.getUsers(pageable, sort, order);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

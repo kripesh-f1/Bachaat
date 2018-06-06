@@ -2,6 +2,7 @@ package com.f1soft.bachaat.controller;
 
 import com.f1soft.bachaat.dto.request.UserRequestDTO;
 import com.f1soft.bachaat.dto.response.UserResponseDTO;
+import com.f1soft.bachaat.dto.response.UserResponseDTOList;
 import com.f1soft.bachaat.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
@@ -55,6 +56,8 @@ public class TestUserController {
 
     Page<UserResponseDTO> pagedResponse;
 
+    UserResponseDTOList userResponseDTOList;
+
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(userController)
@@ -63,10 +66,11 @@ public class TestUserController {
                 "admin", "admin@admin.com",
                 "admin",
                 "1234567890", "admin");
-        userResponseDTO = new UserResponseDTO(1l, "admin", "admin",
+        userResponseDTO = new UserResponseDTO( "admin", "admin",
                 "admin", "admin@admin.com", "admin", "1234567890", "admin");
         pageable = PageRequest.of(0, 1);
         pagedResponse = new PageImpl<>(Arrays.asList(userResponseDTO));
+        userResponseDTOList=new UserResponseDTOList(8,Arrays.asList(userResponseDTO));
     }
 
     @Test
@@ -106,12 +110,13 @@ public class TestUserController {
     @Test
     public void Should_ReturnListOfUsers() throws Exception {
         logger.info("Inside Get User Controller To Fetch All User");
-        String pageNumber = String.valueOf(pageable.getPageNumber());
-        String size = String.valueOf(pageable.getPageSize());
-        given(userService.getUsers(pageable)).willReturn(pagedResponse.getContent());
+
+        String pageNumber=String.valueOf(pageable.getPageNumber());
+        String size=String.valueOf(pageable.getPageSize());
+        given(userService.getUsers(pageable,"firstName","DESC")).willReturn(userResponseDTOList);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + USERS_PATH)
-                .param("page", pageNumber).param("size", size)
-                .contentType(MediaType.APPLICATION_JSON);
+                .param("page", pageNumber).param("size",size).param("sort","firstName")
+                .param("order","DESC").contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());

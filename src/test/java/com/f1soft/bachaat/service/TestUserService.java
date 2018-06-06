@@ -10,6 +10,7 @@ import com.f1soft.bachaat.repository.RoleRepository;
 import com.f1soft.bachaat.repository.UserRepository;
 import com.f1soft.bachaat.service.impl.UserServiceImpl;
 import com.f1soft.bachaat.utils.ActivationCodeUtil;
+import com.f1soft.bachaat.utils.ValidatorUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -49,6 +50,9 @@ public class TestUserService {
     @Mock
     private ModelMapper modelMapper;
 
+    @Mock
+    private ValidatorUtil validatorUtil;
+
     @InjectMocks
     UserServiceImpl userService;
 
@@ -73,7 +77,7 @@ public class TestUserService {
                 "admin", "admin@admin.com",
                 "admin",
                 "1234567890", "admin");
-        userResponseDTO = new UserResponseDTO(1l, "admin", "admin",
+        userResponseDTO = new UserResponseDTO( "admin", "admin",
                 "admin", "admin@admin.com", "admin", "1234567890", "admin");
         pageable = PageRequest.of(0, 1);
         pagedResponse = new PageImpl<>(Arrays.asList(user));
@@ -101,10 +105,11 @@ public class TestUserService {
     @Test
     public void Should_ReturnListOfUser() {
         logger.info("Inside Test User Get All to fetch all Users");
+        when(validatorUtil.getPageable(pageable,"firstName","DESC")).thenReturn(pageable);
         when(userRepository.findAll(pageable)).thenReturn(pagedResponse);
-        Assert.assertNotNull(userService.getUsers(pageable));
+        when(userRepository.count()).thenReturn(8L);
+        Assert.assertNotNull(userService.getUsers(pageable,"firstName","DESC"));
     }
-
     @Test
     public void Should_ReturnUpdatedUser() {
         logger.info("Inside Test User Update to update user successfully");
@@ -118,8 +123,9 @@ public class TestUserService {
     @Test(expected = DataNotFoundException.class)
     public void Should_ThrowException_When_NoRecordsAreFound() {
         logger.info("Inside Test User Get All when there is no record");
+        when(validatorUtil.getPageable(pageable,"firstName","DESC")).thenReturn(pageable);
         when(userRepository.findAll(pageable)).thenReturn(null);
-        userService.getUsers(pageable);
+        userService.getUsers(pageable,"firstName","DESC");
     }
 
     @Test(expected = UserAlreadyExistsException.class)
