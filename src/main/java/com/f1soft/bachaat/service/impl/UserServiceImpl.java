@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.deleteById(id);
         } catch (Exception e) {
-            throw new DataNotFoundException(String.format(USER_NOT_FOUND, id));
+            throw new DataNotFoundException(String.format(USER_ID_NOT_FOUND, id));
         }
     }
 
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         logger.info("User Service: getUsers(): START");
         Page<User> userPage = userRepository.findAll(pageable);
         if (userPage == null) {
-            throw new DataNotFoundException(CAN_NOT_FIND_USERS);
+            throw new DataNotFoundException(CANNOT_FIND_USERS);
         }
 
         List<User> userList = userPage.getContent();
@@ -85,10 +85,10 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO updateUser(UserRequestDTO userRequestDTO) {
         logger.info("User Service: updateUser(): START");
         if (userRequestDTO.getId() == null) {
-            throw new DataNotFoundException(ID_CAN_NOT_BE_NULL);
+            throw new DataNotFoundException(USER_ID_CANNOT_BE_NULL);
         }
         if (!userRepository.findById(userRequestDTO.getId()).isPresent()) {
-            throw new DataNotFoundException(String.format(USER_NOT_FOUND, userRequestDTO.getId()));
+            throw new DataNotFoundException(String.format(USER_ID_NOT_FOUND, userRequestDTO.getId()));
         }
         User user = modelMapper.map(userRequestDTO, User.class);
         User u = userRepository.save(user);

@@ -8,20 +8,39 @@ import static com.f1soft.bachaat.utils.MessageConstant.*;
 
 
 public class UserRequestDTO implements Serializable {
+
     private Long id;
+
     @NotNull(message = FIRST_NAME_REQUIRED)
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String firstName;
+
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String middleName;
+
     @NotNull(message = LAST_NAME_REQUIRED)
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String lastName;
+
     @NotNull(message = EMAIL_ADDRESS_REQUIRED)
+    @Size(min = 5, message = EMAIL_LENGTH_MIN)
     private String emailAddress;
+
     @NotNull(message = ADDRESS_REQUIRED)
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String address;
+
     @Size(min = 10, message = MOBILE_NUMBER_INVALID)
     @NotNull(message = MOBILE_NUMBER_REQUIRED)
     private String mobileNumber;
+
     @NotNull(message = PASSWORD_REQUIRED)
+    @Size(min = 1, message = NAME_LENGTH_MIN)
+    @Size(max = 20, message = NAME_LENGTH_MAX)
     private String password;
 
 

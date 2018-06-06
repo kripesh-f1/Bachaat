@@ -59,7 +59,7 @@ public class MenuServiceImpl implements MenuService {
         logger.info(String.format("Menu Service: getByParentId(): with id: %d", id));
         List<Menu> menus = menuRepository.getByParentId(id);
         if (menus == null) {
-            throw new DataNotFoundException(String.format(PARENT_MENU_NOT_FOUND, id));
+            throw new DataNotFoundException(String.format(MENU_PARENT_ID_NOT_FOUND, id));
         }
         List<MenuResponseDTO> menuResponseDTOS = new ArrayList<>();
         menus.forEach(menu -> menuResponseDTOS.add(new MenuResponseDTO(menu)));

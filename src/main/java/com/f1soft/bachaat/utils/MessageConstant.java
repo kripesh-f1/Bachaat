@@ -7,13 +7,13 @@ public class MessageConstant {
     public static final String USER_UPDATE_MESSAGE = "User with id: %d has been updated successfully.";
     public static final String USER_ADD_MESSAGE = "User has been added successfully.";
     public static final String DATA_BINDING_ERROR_MESSAGE = "Invalid request parameter.";
-    public static final String PARENT_MENU_NOT_FOUND = "Menu with parent id: %d not found.";
+    public static final String MENU_PARENT_ID_NOT_FOUND = "Menu with parent id: %d not found.";
     public static final String MENU_NOT_FOUND ="Menu with id: %d not found." ;
     public static final String MENU_ALREADY_EXISTS = "Given menu already exists.";
     public static final String USER_ALREADY_EXISTS = "User with mobile number: %s already exists.";
-    public static final String USER_NOT_FOUND = "User with id: %d not found";
-    public static final String CAN_NOT_FIND_USERS = "Cannot find users.";
-    public static final String ID_CAN_NOT_BE_NULL = "User id can not be null";
+    public static final String USER_ID_NOT_FOUND = "User with id: %d not found";
+    public static final String CANNOT_FIND_USERS = "Cannot find users.";
+    public static final String USER_ID_CANNOT_BE_NULL = "User id can not be null";
 
     public static final String FIRST_NAME_REQUIRED = "First Name is required, please enter your first name.";
     public static final String LAST_NAME_REQUIRED = "Last Name is required, please enter your last name.";
@@ -25,4 +25,9 @@ public class MessageConstant {
 
     public static final String MENU_NAME_REQUIRED = "Menu name can not be null.";
     public static final String LINK_REQUIRED = "Link cannot be null.";
+
+    public static final String NAME_LENGTH_MIN = "Length must be at least more than or equal to 1.";
+    public static final String NAME_LENGTH_MAX = "Length must not be more than 20.";
+    public static final String EMAIL_LENGTH_MIN = "Length must be at least more than or equal to 5.";
+
 }
