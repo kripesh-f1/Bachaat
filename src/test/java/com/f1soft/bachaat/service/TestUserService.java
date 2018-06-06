@@ -168,7 +168,7 @@ public class TestUserService {
     @Test(expected = DataNotFoundException.class)
     public void Should_ThrowException_WhenThereIsNoSuchUser() {
         logger.info("This is failure testing for getUser() when there is no user of such id.");
-        when(userRepository.findById(userRequestDTO.getId())).thenReturn(null);
-       userService.getUser(userRequestDTO.getId());
+        when(userRepository.findById(userRequestDTO.getId())).thenReturn(Optional.empty());
+        userService.getUser(userRequestDTO.getId());
     }
 }

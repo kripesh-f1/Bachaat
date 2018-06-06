@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.f1soft.bachaat.utils.MessageConstant.*;
+
 @Component
 public class ValidatorUtil {
 
@@ -23,7 +25,7 @@ public class ValidatorUtil {
 
     public  Pageable getPageable(Pageable pageable,String sort,String order){
         if(!getStringList(sort)){
-            throw new ValidationException(String.format("Unknown field : %s",sort));
+            throw new ValidationException(String.format(UNKNOWN_FIELD,sort));
         }
         else if(!sort.isEmpty()&&order.isEmpty()){
             pageable=PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(), Sort.by(sort));

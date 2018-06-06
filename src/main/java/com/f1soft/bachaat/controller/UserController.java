@@ -63,7 +63,7 @@ public class UserController {
 
     @GetMapping(GET_USER_PATH)
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable long id) {
-        logger.info("Inside get User method of User Controller.");
+        logger.info(String.format("User Controller: getUser(): with id: %d", id));
         UserResponseDTO userResponseDTO=userService.getUser(id);
         return new ResponseEntity<>(userResponseDTO, HttpStatus.OK);
     }

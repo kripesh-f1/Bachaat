@@ -111,8 +111,8 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO getUser(long id) {
         logger.info("User Service: getUser(): START");
         Optional<User> user=userRepository.findById(id);
-        if(user==null){
-            throw new DataNotFoundException("Cannot find user.");
+        if(!user.isPresent()){
+            throw new DataNotFoundException(CANNOT_FIND_USER);
         }
         UserResponseDTO userResponseDTO=modelMapper.map(user.get(),UserResponseDTO.class);
         return userResponseDTO;
