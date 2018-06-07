@@ -35,7 +35,6 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(MockitoJUnitRunner.class)
-@EnableSpringDataWebSupport
 public class TestUserController {
 
     private static Logger logger = Logger.getLogger(TestUserController.class.getName());
@@ -65,12 +64,12 @@ public class TestUserController {
         userRequestDTO = new UserRequestDTO(1l, "admin", "admin",
                 "admin", "admin@admin.com",
                 "admin",
-                "1234567890", "admin");
-        userResponseDTO = new UserResponseDTO( "admin", "admin",
+                "1234567890", "admin@123Q");
+        userResponseDTO = new UserResponseDTO("admin", "admin",
                 "admin", "admin@admin.com", "admin", "1234567890", "admin");
         pageable = PageRequest.of(0, 1);
         pagedResponse = new PageImpl<>(Arrays.asList(userResponseDTO));
-        userResponseDTOList=new UserResponseDTOList(8,Arrays.asList(userResponseDTO));
+        userResponseDTOList = new UserResponseDTOList(8, Arrays.asList(userResponseDTO));
     }
 
     @Test
@@ -111,12 +110,12 @@ public class TestUserController {
     public void Should_ReturnListOfUsers() throws Exception {
         logger.info("Inside Get User Controller To Fetch All User");
 
-        String pageNumber=String.valueOf(pageable.getPageNumber());
-        String size=String.valueOf(pageable.getPageSize());
-        given(userService.getUsers(pageable,"firstName","DESC")).willReturn(userResponseDTOList);
+        String pageNumber = String.valueOf(pageable.getPageNumber());
+        String size = String.valueOf(pageable.getPageSize());
+        given(userService.getUsers(pageable, "firstName", "DESC")).willReturn(userResponseDTOList);
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(API_VER + USERS_PATH)
-                .param("page", pageNumber).param("size",size).param("sort","firstName")
-                .param("order","DESC").contentType(MediaType.APPLICATION_JSON);
+                .param("page", pageNumber).param("size", size).param("sort", "firstName")
+                .param("order", "DESC").contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         Assert.assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -196,7 +195,7 @@ public class TestUserController {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         String outputInJson = response.getContentAsString();
-        UserResponseDTO userResponseDTO=mapper.readValue(outputInJson,UserResponseDTO.class);
+        UserResponseDTO userResponseDTO = mapper.readValue(outputInJson, UserResponseDTO.class);
         Assert.assertNotNull(userResponseDTO);
 
     }
