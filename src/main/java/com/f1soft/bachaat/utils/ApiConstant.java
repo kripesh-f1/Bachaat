@@ -8,6 +8,5 @@ public class ApiConstant {
     public static final String DELETE_PATH = "/delete";
     public static final String MENUS_PATH = "/menus";
     public static final String MENU_PATH = "/single";
-
-
+    public static final String GET_USER_PATH = "/{id}";
 }

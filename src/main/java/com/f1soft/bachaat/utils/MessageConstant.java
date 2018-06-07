@@ -14,6 +14,8 @@ public class MessageConstant {
     public static final String USER_ID_NOT_FOUND = "User with id: %d not found";
     public static final String CANNOT_FIND_USERS = "Cannot find users.";
     public static final String USER_ID_CANNOT_BE_NULL = "User id can not be null";
+    public static final String UNKNOWN_FIELD= "Unknown field : %s";
+    public static final String CANNOT_FIND_USER = "Cannot find user.";
 
     public static final String FIRST_NAME_REQUIRED = "First Name is required, please enter your first name.";
     public static final String LAST_NAME_REQUIRED = "Last Name is required, please enter your last name.";

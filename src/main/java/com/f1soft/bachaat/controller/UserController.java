@@ -60,4 +60,11 @@ public class UserController {
         apiMessageResponse.setMessage(USER_ADD_MESSAGE);
         return new ResponseEntity<>(apiMessageResponse, HttpStatus.OK);
     }
+
+    @GetMapping(GET_USER_PATH)
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable long id) {
+        logger.info(String.format("User Controller: getUser(): with id: %d", id));
+        UserResponseDTO userResponseDTO=userService.getUser(id);
+        return new ResponseEntity<>(userResponseDTO, HttpStatus.OK);
+    }
 }

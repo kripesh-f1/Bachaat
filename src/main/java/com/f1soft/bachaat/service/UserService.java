@@ -15,4 +15,6 @@ public interface UserService {
     UserResponseDTOList getUsers(Pageable pageable, String sort, String order);
 
     UserResponseDTO updateUser(UserRequestDTO userRequestDTO);
+
+    UserResponseDTO getUser(long id);
 }
