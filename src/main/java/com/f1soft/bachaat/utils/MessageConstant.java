@@ -32,4 +32,9 @@ public class MessageConstant {
     public static final String NAME_LENGTH_MAX = "Length must not be more than 20.";
     public static final String EMAIL_LENGTH_MIN = "Length must be at least more than or equal to 5.";
 
+    public static final String EMAIL_MESSAGE = "Email format should be email@example.com";
+    public static final String PASSWORD_MESSAGE = "Should have at least one uppercase letter, one lowercase letter, one number and one special character.";
+    public static final String ALPHABET_MESSAGE = "This field accepts alphabets only.";
+    public static final String NUMBER_MESSAGE = "This field accepts numbers only.";
+
 }
